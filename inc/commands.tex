@@ -3,6 +3,8 @@
 \newcommand\grk[1]{\foreignlanguage{greek}{#1}}
 \newcommand\eng[1]{\foreignlanguage{english}{#1}}
 
+\newcommand\textgreek[1]{#1}
+
 % \newcommand\range[2]{\overline{{#1},{#2}}}
 \newcommand\range[2]{{#1}{:}{#2}}
 
@@ -178,6 +180,8 @@
   \def\mapitem{\identity}%
   \ensuremath{\insetmap{#1}}%
   \endgroup}
+
+\newcommand\pc[1]{\proc{#1}}
 
 \newcommand\pevtone[1]{\ensuremath{\text{\texttt{#1}}}}
 
