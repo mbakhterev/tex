@@ -1,0 +1,417 @@
+% Различные простые макросы без возни с низкоуровневым TeX
+
+\newcommand\grk[1]{\foreignlanguage{greek}{#1}}
+\newcommand\eng[1]{\foreignlanguage{english}{#1}}
+
+% \newcommand\range[2]{\overline{{#1},{#2}}}
+\newcommand\range[2]{{#1}{:}{#2}}
+
+% Шрифт для идентификаторов доменов
+
+\newcommand\dfn[1]{\ensuremath{\mathrm{#1}}}
+
+\newif\ifclassic
+\classicfalse
+
+\newcommand\identity[1]{#1}
+\newcommand\esc[1]{#1}
+
+\makeatletter
+
+\def\im@end{\relax}
+\def\insetmap#1{\im@loop#1 \im@end\relax}
+
+\def\im@loop#1 #2\relax{%
+  \begingroup%
+  \ifx \im@end#2%
+    \def\im@next{\endgroup\mapitem{#1}\relax}%
+  \else%
+    \def\im@next{\endgroup\mapitem{#1}\relax\expandafter\inset\im@loop#2\relax}%
+  \fi%
+  \im@next
+}
+
+\def\headsplitmap#1{\hs@split#1 \im@end\relax}
+
+\def\hs@split#1 #2\relax{%
+  \ifx \im@end#2%
+    \maphead{#1}{\pretail\posttail}%
+  \else
+    \maphead{#1}{\pretail\insetmap{#2}\posttail}}
+
+\makeatother
+
+% Произведения и кортежи
+
+\newcommand\productone[1]{%
+  \begingroup%
+  \def\inset{\times}%
+  \def\mapitem{\identity}%
+  \ensuremath{\insetmap{#1}}%
+  \endgroup}
+
+\NewDocumentCommand\product{mggg}{%
+  \IfNoValueTF{#4}
+    {\productone{#1}}
+    {\ensuremath{\prod_{#2=#3}^{#4}{#1_{#2}}}}}
+
+\ifclassic
+  \newcommand\enum[1]{%
+    \begingroup%
+    \def\inset{,}%
+    \def\mapitem{\identity}%
+    \ensuremath{\insetmap{#1}}%
+    \endgroup}
+\else
+  \newcommand\enum[1]{
+    \begingroup%
+    \def\inset{\ }%
+    \def\mapitem{\identity}%
+    \ensuremath{\insetmap{#1}}%
+    \endgroup}
+\fi
+
+\newcommand\tuple[1]{\ensuremath{[\enum{#1}]}}
+\newcommand\Tuple[1]{\ensuremath{\left[\enum{#1}\right]}}
+
+\newcommand\prj[2]{\ensuremath{\pi^{#1}_{\enum{#2}}}}
+
+% Суммы
+
+\newcommand\oneofone[1]{%
+  \begingroup%
+  \def\inset{+}%
+  \def\mapitem{\identity}%
+  \ensuremath{\insetmap{#1}}%
+  \endgroup}
+
+\NewDocumentCommand\oneof{mggg}{%
+  \IfNoValueTF{#4}
+    {\oneofone{#1}}
+    {\ensuremath{\sum_{#2=#3}^{#4}{#1_{#2}}}}}
+
+\newcommand\inj[2]{\ensuremath{\epsilon^{#1}_{\enum{#2}}}}
+
+\NewDocumentCommand\tailinj{mmg}{%
+  \IfNoValueTF{#3}
+    {\ensuremath{#1\rightarrowtail#2}}
+    {\ensuremath{\tailinj{#1}{#2}\ {#3}}}}
+
+% Λ-абстракции
+
+\newcommand\fndom[1]{%
+  \begingroup%
+  \def\inset{\to}%
+  \def\mapitem{\identity}%
+  \ensuremath{\insetmap{#1}}%
+  \endgroup}
+
+\newcommand\lam[1]{\ensuremath{\lambda#1\ldotp}}
+
+\ifclassic
+  \newcommand{\app}[1]{%
+    \begingroup%
+    \def\inset{,}%
+    \def\mapitem{\identity}%
+    \def\maphead{\identity}%
+    \def\pretail{(}
+    \def\posttail{)}
+    \ensuremath{\headsplitmap{#1}}%
+    \endgroup}
+\else
+  \newcommand{\app}[1]{%
+    \begingroup%
+    \def\inset{\ }%
+    \def\mapitem{\identity}%
+    \ensuremath{(\insetmap{#1})}%
+    \endgroup}
+\fi
+
+% S-выражения
+
+\makeatletter
+
+\def\get@first#1#2\relax{#1}
+
+\newcommand\codeitem[1]{%
+  \expandafter\ifx\get@first#1\relax\esc
+    {#1}
+  \else
+    {\expandafter\ifx\get@first#1\relax\sexp
+       {#1}
+     \else
+       {\expandafter\ifx\get@first#1\relax\satom
+          {#1}
+        \else
+          \mathtt{#1}\fi}\fi}\fi}
+
+\makeatother
+
+\newcommand\sexp[1]{%
+  \begingroup%
+  \def\inset{\mathtt{\ }}%
+  \def\mapitem{\codeitem}%
+  \ensuremath{\text{\texttt{(}}\insetmap{#1}\text{\texttt{)}}}%
+  \endgroup}
+
+\newcommand\satom[1]{\ensuremath{\text{\texttt{#1}}}}
+
+\newcommand\fn[1]{\app{#1}}
+
+% CSP
+
+\newcommand\procop[0]{\ensuremath{\twoheadrightarrow}}
+
+\newcommand\proc[1]{%
+  \begingroup%
+  \def\inset{\procop}%
+  \def\mapitem{\identity}%
+  \ensuremath{\insetmap{#1}}%
+  \endgroup}
+
+\newcommand\pevtone[1]{\ensuremath{\text{\texttt{#1}}}}
+
+\NewDocumentCommand\pevt{mg}{%
+  \IfNoValueTF{#2}
+    {\pevtone{#1}}
+    {\ensuremath{{\pevtone{#1}{:}{#2}}}}}
+
+\newcommand\pparop{\ensuremath{\parallel}}
+\newcommand\ppar[1]{%
+  \begingroup%
+  \def\inset{\pparop}%
+  \def\mapitem{\identity}%
+  \ensuremath{\insetmap{#1}}%
+  \endgroup}
+
+\newcommand{\pord}[1]{\inscribe{\sqsubseteq}{#1}}
+\newcommand{\psel}[1]{\inscribe{\mid}{#1}}
+\newcommand{\pmurec}[1]{\mu{#1}\ldotp\ }
+
+\newcommand{\tr}[1]{\seq{#1}}
+
+% \newcommand{\palpha}[1]{{\mbox{\texttt{α}}{#1}}}
+% \newcommand{\tproc}[1]{{\mbox{\texttt{ι}}{#1}}}
+
+\newcommand{\palpha}[1]{\text{\textgreek{α}}#1}
+\newcommand{\tproc}[1]{\text{\textgreek{ι}}#1}
+
+\newcommand{\tcat}[1]{\sqcat{#1}}
+
+\newcommand{\tord}[1]{\inscribe{\le}{#1}}
+
+
+\newcommand{\PC}[1]{\tuple{{\palpha{#1}} {\tproc{#1}}}}
+
+
+% \newcommand{\inscribe}[2]{\intake{\identity}{#1}{#2}}
+% 
+% \newcommand\fnparens[1]{\left(#1\right)}
+% \newcommand\fnscribe[1]{\splitinscribe{\identity}{\fnparens}{\identity}{,\,}#1}
+% 
+% \ifclassic
+%   \newcommand{\fn}[1]{\fnscribe{#1}}
+% \else
+%   \newcommand{\fn}[1]{\left(\inscribe{\ }{#1}\right)}
+% \fi
+% 
+% \ifclassic
+%   \newcommand{\seq}[1]{\left(\inscribe{,\,}{#1}\right)}
+% \else
+%   \newcommand{\seq}[1]{\left[\inscribe{\ }{#1}\right]}
+% \fi
+
+% \newcommand{\sqcat}[1]{\inscribe{\cdot}{#1}}
+
+\newcommand\sqcat[1]{%
+  \begingroup%
+  \def\inset{\cdot}%
+  \def\mapitem{\identity}%
+  \ensuremath{\insetmap{#1}}%
+  \endgroup}
+
+\newcommand\seq[1]{\tuple{#1}}
+
+% \newcommand\term[1]{\fn{TERM {\unite{#1}}}}
+
+\newcommand\term[1]{\fn{TERM #1}}
+% \newcommand\tval[1]{\fn{val #1}}
+
+\makeatletter
+
+\def\extract@code#1#2\relax{#1}
+
+\newcommand\code[1]{\relax%
+  \expandafter\ifx\extract@code#1\relax\identity%
+    {#1}%
+  \else%
+    \mbox{\texttt{#1}}%
+  \fi\relax}
+
+\makeatother
+
+\newcommand\bind[2]{{{#1}\mapsto{#2}}}
+\newcommand\bindc[2]{\tuple{\bind{\code{#1}}{\code{#2}}}}
+
+\newcommand\codespace[0]{\mbox{\texttt{ }}}
+
+\newcommand\fappseq[1]{\intake{\code}{\codespace}{#1}}
+\newcommand\fabsseq[1]{\intake{\mbox{\texttt{\textgreek{λ}}}\code}{\codespace}{#1}\codespace}
+
+\newcommand{\fabs}[2]{\code{(}{\fabsseq{#1}\code{#2}}\code{)}}
+\newcommand{\fapp}[1]{\code{(}{\fappseq{#1}}\code{)}}
+
+\newcommand{\bred}[1]{\inscribe{\mathrel{{\to}_\beta}}{#1}}
+\newcommand{\aeq}[1]{\inscribe{\mathrel{{=}_\alpha}}{#1}}
+
+
+% \newcommand{\tuple}[1]{\seq{#1}}
+% \newcommand\tlen[1]{\card{\dom{#1}}}
+\newcommand\tlen[1]{{#1_{\#}}}
+\newcommand\tend[1]{{#1}_{\tlen{#1}-1}}
+
+%  \begingroup\def\inset{\times} \def\doword{} {\words#1}\endgroup}
+
+\newcommand{\rel}[2]{\inscribe{\mathrel{#1}}{#2}}
+\newcommand{\relation}[2]{\rel{#1}{#2}}
+
+\newcommand{\card}[1]{\left|#1\right|}
+
+\newcommand{\forevery}[1]{\forall{#1}\ldotp\ }
+\newcommand{\thereis}[1]{\exists{#1}\ldotp\ }
+% \newcommand{\lam}[1]{\text{\textgreek{λ}}#1\ldotp}
+
+\newcommand{\coll}[2]{\left\{{{#1} \mid {#2}}\right\}}
+
+\newcommand\nats{\mathbb{N}}
+
+\newcommand{\bottom}[0]{{\bot}}
+\newcommand{\dless}[0]{\sqsubseteq}
+\newcommand{\dord}[1]{\inscribe{\dless}{#1}}
+\newcommand{\dbot}[1]{{\bottom_{#1}}}
+
+% \newcommand\all[1]{\inscribe{\wedge}{#1}}
+% \newcommand\any[1]{\inscribe{\vee}{#1}}
+
+\newcommand\all[1]{%
+  \begingroup%
+  \def\inset{\wedge}%
+  \def\mapitem{\identity}%
+  \ensuremath{\insetmap{#1}}%
+  \endgroup}
+
+\newcommand\any[1]{%
+  \begingroup%
+  \def\inset{\vee}%
+  \def\mapitem{\identity}%
+  \ensuremath{\insetmap{#1}}%
+  \endgroup}
+
+
+\newcommand\allop{\all{{} {}}}
+\newcommand\anyop{\any{{} {}}}
+
+\newcommand{\join}[1]{\inscribe{\cap}{#1}}
+\newcommand{\unite}[1]{\inscribe{\cup}{#1}}
+
+\newcommand{\lub}[1]{\textstyle\bigsqcup{#1}}
+
+\ifclassic
+  \newcommand{\cpars}[1]{\left(#1\right)}
+  \newcommand{\muset}[1]{\mu\left\{{#1}\right\}}
+\else
+  \newcommand{\cpars}[1]{#1}
+  \newcommand{\muset}[1]{\mu{#1}}
+\fi
+
+\newcommand\fix[1]{{\mbox{fix}_{#1}\,}}
+\newcommand\dom[1]{{\mbox{dom}\,{#1}}}
+
+
+\newcommand\Nats{\nats}
+% \newcommand\Nless[2]{{\all{{{#2} \in \Nats} {{#1} \le {#2}}}}}
+% \newcommand\Nless[1]{{\nats_{{} < {#1}}}}
+
+\newcommand\cpnmode[1]{\fn{mode #1}}
+\newcommand\cpntype[1]{\fn{Type #1}}
+\newcommand\cpnready[1]{\fn{ready #1}}
+
+\newcommand\holesign{ 
+  \mathchoice
+    {\mbox{§}}
+    {\mbox{§}}
+    {\mbox{\scriptsize §}}
+    {\mbox{\tiny §}}}
+
+\newcommand\hole[1]{\holesign{#1}}
+
+\newcommand\tlanext[1]{{{#1}'}}
+
+\newcommand\tvar[1]{\fn{VAR #1}}
+\newcommand\tlact[1]{\mathcal{#1}}
+\newcommand\tlast[2]{\left[#1\right]_{#2}}
+\newcommand\tlalways[1]{\square{#1}}
+
+\newcommand\St{\mathbf{St}}
+
+\newcommand\bydef{\overset{\mbox{\tiny def}}{=}}
+
+\newcommand\iseq[3]{\tuple{#1}_{{#2}\in {#3}}}
+\newcommand\nseq[2]{\iseq{#1}{#2}{\nats}}
+\newcommand\bseq[4]{\iseq{\bind{#1_{#3}}{#2_{#3}}}{#3}{\Nless{#4}}}
+
+\newcommand\R{\mathbf{R}}
+
+\newcommand\tnothing{}
+\newcommand\tsubst[1]{\left[#1\right]}
+\newcommand\tval[1]{\splitinscribe\identity\identity\tsubst\tnothing#1\relax}
+
+\newcommand\tlaval[1]{\splitinscribe\tlact\identity\tsubst\tnothing#1\relax}
+
+\newcommand\upto[1]{\downarrow{#1}}
+% \newcommand\uptoex[1]{\upto{({#1}-1)}}
+% \newcommand\uptoex[1]{\text{\v{$\downarrow$}}{#1}}
+\newcommand\uptoex[1]{{\hat{{\downarrow}}}{#1}}
+% \newcommand\Nless[1]{\set{{\cdot}_{\Nats} < {#1}}}
+\newcommand\Nless[1]{\uptoex{#1}}
+
+\newcommand\stx[1]{\ensuremath{\text{#1}}}
+\newcommand\bstx[1]{\ensuremath{{\text{#1}}_{\text{B}}}}
+
+\newcommand\tcode[1]{\lstinline`#1`}
+\newcommand\mcode[1]{\mbox{\tcode{#1}}}
+\newcommand\mcsp{\mbox{\texttt{ }}}
+
+\newcommand\codepair[2]{\(\frac{\mathrm{#1}}{\mathrm{#2}}\)}
+% \newcommand\codepair[2]{\({\mathrm{#1}}_{\mathrm{#2}}\)}
+% \newcommand\codepair[2]{{#1}/{#2}}
+
+\newcommand\mpi[1]{\codepair{MPI}{#1}}
+\newcommand\ride[1]{\codepair{RiDE}{#1}}
+\newcommand\hadoop[1]{\codepair{Hadoop}{#1}}
+
+\newcommand\uid[1]{\fn{{\text{\texttt{uid}}} {#1}}}
+\newcommand\UID[1]{\fn{{\text{\texttt{UID}}} {#1}}}
+\newcommand\node[1]{\fn{{\text{\texttt{node}}} {#1}}}
+
+\newcommand\eval[1]{\llbracket {#1} \rrbracket}
+
+\newenvironment{centercode}%
+  {\begin{center}\begin{tabular}{c}}%
+  {\end{tabular}\end{center}}
+
+\newcommand\wa[1]{\ensuremath{{#1}_w}}
+
+\newcommand\Input[1]{\fn{I {#1}}}
+\newcommand\Wrte[1]{\fn{W {#1}}}
+\newcommand\Img[1]{\text{Im}\,{#1}}
+
+\providecommand\set[1]{\ensuremath{\{#1\}}}
+
+\newcommand\In[1]{#1}
+\newcommand\Wr[1]{#1}
+
+\newcommand\lx[1]{\grk{l}-#1}
+\newcommand\px[1]{\grk{p}-#1}
+
+
