@@ -158,6 +158,15 @@
 
 \newcommand\fn[1]{\app{#1}}
 
+\newcommand\ttlx[1]{\ensuremath{\text{\texttt{λ}#1}}}
+\newcommand\fapp[1]{\sexp{#1}}
+\newcommand\fabs[2]{\sexp{\ttlx{\code{#1}} #2}}
+
+% \newcommand{\fabs}[2]{\code{(}{\fabsseq{#1}\code{#2}}\code{)}}
+% \newcommand{\fapp}[1]{\code{(}{\fappseq{#1}}\code{)}}
+% \newcommand\fappseq[1]{\intake{\code}{\codespace}{#1}}
+% \newcommand\fabsseq[1]{\intake{\mbox{\texttt{\textgreek{λ}}}\code}{\codespace}{#1}\codespace}
+
 % CSP
 
 \newcommand\procop[0]{\ensuremath{\twoheadrightarrow}}
@@ -200,28 +209,7 @@
 
 \newcommand{\tord}[1]{\inscribe{\le}{#1}}
 
-
 \newcommand{\PC}[1]{\tuple{{\palpha{#1}} {\tproc{#1}}}}
-
-
-% \newcommand{\inscribe}[2]{\intake{\identity}{#1}{#2}}
-% 
-% \newcommand\fnparens[1]{\left(#1\right)}
-% \newcommand\fnscribe[1]{\splitinscribe{\identity}{\fnparens}{\identity}{,\,}#1}
-% 
-% \ifclassic
-%   \newcommand{\fn}[1]{\fnscribe{#1}}
-% \else
-%   \newcommand{\fn}[1]{\left(\inscribe{\ }{#1}\right)}
-% \fi
-% 
-% \ifclassic
-%   \newcommand{\seq}[1]{\left(\inscribe{,\,}{#1}\right)}
-% \else
-%   \newcommand{\seq}[1]{\left[\inscribe{\ }{#1}\right]}
-% \fi
-
-% \newcommand{\sqcat}[1]{\inscribe{\cdot}{#1}}
 
 \newcommand\sqcat[1]{%
   \begingroup%
@@ -250,16 +238,12 @@
 
 \makeatother
 
-\newcommand\bind[2]{{{#1}\mapsto{#2}}}
+\newcommand\bind[2]{{{#2}/{#1}}}
 \newcommand\bindc[2]{\tuple{\bind{\code{#1}}{\code{#2}}}}
 
 \newcommand\codespace[0]{\mbox{\texttt{ }}}
 
-\newcommand\fappseq[1]{\intake{\code}{\codespace}{#1}}
-\newcommand\fabsseq[1]{\intake{\mbox{\texttt{\textgreek{λ}}}\code}{\codespace}{#1}\codespace}
 
-\newcommand{\fabs}[2]{\code{(}{\fabsseq{#1}\code{#2}}\code{)}}
-\newcommand{\fapp}[1]{\code{(}{\fappseq{#1}}\code{)}}
 
 \newcommand{\bred}[1]{\inscribe{\mathrel{{\to}_\beta}}{#1}}
 \newcommand{\aeq}[1]{\inscribe{\mathrel{{=}_\alpha}}{#1}}
@@ -307,12 +291,25 @@
   \ensuremath{\insetmap{#1}}%
   \endgroup}
 
-
 \newcommand\allop{\all{{} {}}}
 \newcommand\anyop{\any{{} {}}}
 
-\newcommand{\join}[1]{\inscribe{\cap}{#1}}
-\newcommand{\unite}[1]{\inscribe{\cup}{#1}}
+% \newcommand{\join}[1]{\inscribe{\cap}{#1}}
+% \newcommand{\unite}[1]{\inscribe{\cup}{#1}}
+
+\newcommand\join[1]{%
+  \begingroup%
+  \def\inset{\cap}%
+  \def\mapitem{\identity}%
+  \ensuremath{\insetmap{#1}}%
+  \endgroup}
+
+\newcommand\unite[1]{%
+  \begingroup%
+  \def\inset{\cup}%
+  \def\mapitem{\identity}%
+  \ensuremath{\insetmap{#1}}%
+  \endgroup}
 
 \newcommand{\lub}[1]{\textstyle\bigsqcup{#1}}
 
