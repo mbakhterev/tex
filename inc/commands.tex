@@ -158,6 +158,16 @@
 
 \newcommand\fn[1]{\app{#1}}
 
+% \newcommand\fappseq[1]{\intake{\code}{\codespace}{#1}}
+% \newcommand\fabsseq[1]{\intake{\mbox{\texttt{\textgreek{λ}}}\code}{\codespace}{#1}\codespace}
+% 
+% \newcommand{\fabs}[2]{\code{(}{\fabsseq{#1}\code{#2}}\code{)}}
+% \newcommand{\fapp}[1]{\code{(}{\fappseq{#1}}\code{)}}
+
+\newcommand\clam[0]{\ensuremath{\text{\texttt{λ}}}}
+\newcommand\fapp[1]{\sexp{#1}}
+\newcommand\fabs[2]{\sexp{\clam{} {#1} #2}}
+
 % CSP
 
 \newcommand\procop[0]{\ensuremath{\twoheadrightarrow}}
@@ -255,11 +265,6 @@
 
 \newcommand\codespace[0]{\mbox{\texttt{ }}}
 
-\newcommand\fappseq[1]{\intake{\code}{\codespace}{#1}}
-\newcommand\fabsseq[1]{\intake{\mbox{\texttt{\textgreek{λ}}}\code}{\codespace}{#1}\codespace}
-
-\newcommand{\fabs}[2]{\code{(}{\fabsseq{#1}\code{#2}}\code{)}}
-\newcommand{\fapp}[1]{\code{(}{\fappseq{#1}}\code{)}}
 
 \newcommand{\bred}[1]{\inscribe{\mathrel{{\to}_\beta}}{#1}}
 \newcommand{\aeq}[1]{\inscribe{\mathrel{{=}_\alpha}}{#1}}
@@ -311,8 +316,22 @@
 \newcommand\allop{\all{{} {}}}
 \newcommand\anyop{\any{{} {}}}
 
-\newcommand{\join}[1]{\inscribe{\cap}{#1}}
-\newcommand{\unite}[1]{\inscribe{\cup}{#1}}
+% \newcommand{\join}[1]{\inscribe{\cap}{#1}}
+% \newcommand{\unite}[1]{\inscribe{\cup}{#1}}
+
+\newcommand\join[1]{%
+  \begingroup%
+  \def\inset{\cap}%
+  \def\mapitem{\identity}%
+  \ensuremath{\insetmap{#1}}%
+  \endgroup}
+
+\newcommand\unite[1]{%
+  \begingroup%
+  \def\inset{\cup}%
+  \def\mapitem{\identity}%
+  \ensuremath{\insetmap{#1}}%
+  \endgroup}
 
 \newcommand{\lub}[1]{\textstyle\bigsqcup{#1}}
 
