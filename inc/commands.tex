@@ -3,6 +3,8 @@
 \newcommand\grk[1]{\foreignlanguage{greek}{#1}}
 \newcommand\eng[1]{\foreignlanguage{english}{#1}}
 
+\newcommand\textgreek[1]{#1}
+
 % \newcommand\range[2]{\overline{{#1},{#2}}}
 \newcommand\range[2]{{#1}{:}{#2}}
 
@@ -158,14 +160,15 @@
 
 \newcommand\fn[1]{\app{#1}}
 
-\newcommand\ttlx[1]{\ensuremath{\text{\texttt{λ}#1}}}
-\newcommand\fapp[1]{\sexp{#1}}
-\newcommand\fabs[2]{\sexp{\ttlx{\code{#1}} #2}}
-
-% \newcommand{\fabs}[2]{\code{(}{\fabsseq{#1}\code{#2}}\code{)}}
-% \newcommand{\fapp}[1]{\code{(}{\fappseq{#1}}\code{)}}
 % \newcommand\fappseq[1]{\intake{\code}{\codespace}{#1}}
 % \newcommand\fabsseq[1]{\intake{\mbox{\texttt{\textgreek{λ}}}\code}{\codespace}{#1}\codespace}
+% 
+% \newcommand{\fabs}[2]{\code{(}{\fabsseq{#1}\code{#2}}\code{)}}
+% \newcommand{\fapp}[1]{\code{(}{\fappseq{#1}}\code{)}}
+
+\newcommand\clam[0]{\ensuremath{\text{\texttt{λ}}}}
+\newcommand\fapp[1]{\sexp{#1}}
+\newcommand\fabs[2]{\sexp{\clam{} {#1} #2}}
 
 % CSP
 
@@ -177,6 +180,8 @@
   \def\mapitem{\identity}%
   \ensuremath{\insetmap{#1}}%
   \endgroup}
+
+\newcommand\pc[1]{\proc{#1}}
 
 \newcommand\pevtone[1]{\ensuremath{\text{\texttt{#1}}}}
 
@@ -243,11 +248,8 @@
 
 \newcommand\codespace[0]{\mbox{\texttt{ }}}
 
-
-
 \newcommand{\bred}[1]{\inscribe{\mathrel{{\to}_\beta}}{#1}}
 \newcommand{\aeq}[1]{\inscribe{\mathrel{{=}_\alpha}}{#1}}
-
 
 % \newcommand{\tuple}[1]{\seq{#1}}
 % \newcommand\tlen[1]{\card{\dom{#1}}}
