@@ -1,11 +1,41 @@
 % Различные простые макросы без возни с низкоуровневым TeX
 
+\usepackage{iftex}
+
+\ifXeTeX
+  \usepackage{amsmath, mathspec}
+  \usepackage{polyglossia}
+  \setdefaultlanguage{russian}
+  \setotherlanguages{english}
+
+  \defaultfontfeatures{Ligatures=TeX}
+
+  \setmainfont{DejaVu Sans ExtraLight}
+  \setsansfont{DejaVu Sans ExtraLight}
+  \setmonofont{DejaVu Sans Mono}
+
+  \setmathfont(Digits,Latin,Greek){DejaVu Math TeX Gyre}
+% \setmathfont(Digits,Latin,Greek){DejaVu Sans Condensed}
+  \setmathrm{DejaVu Serif Condensed}
+  \setmathtt{DejaVu Sans Mono}
+
+  \newcommand\textgreek[1]{#1}
+
+\else
+  \usepackage[T2A]{fontenc}
+%  \usepackage{ucs}
+  \usepackage[utf8]{inputenc}
+  \usepackage[greek,english,russian]{babel}
+
+  \usepackage{amsmath}
+  \usepackage{amsfonts}
+  \usepackage{amssymb}
+\fi
+
+\usepackage{xparse}
+
 \newcommand\grk[1]{\foreignlanguage{greek}{#1}}
 \newcommand\eng[1]{\foreignlanguage{english}{#1}}
-
-\ifxetex
-\newcommand\textgreek[1]{#1}
-\fi
 
 % \newcommand\range[2]{\overline{{#1},{#2}}}
 \newcommand\range[2]{{#1}{:}{#2}}
