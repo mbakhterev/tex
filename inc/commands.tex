@@ -1,39 +1,5 @@
 % Различные простые макросы без возни с низкоуровневым TeX
 
-\usepackage{iftex}
-
-\ifXeTeX
-  \usepackage{amsmath, mathspec}
-  \usepackage{polyglossia}
-  \setdefaultlanguage{russian}
-  \setotherlanguages{english}
-
-  \defaultfontfeatures{Ligatures=TeX}
-
-  \setmainfont{DejaVu Sans ExtraLight}
-  \setsansfont{DejaVu Sans ExtraLight}
-  \setmonofont{DejaVu Sans Mono}
-
-  \setmathfont(Digits,Latin,Greek){DejaVu Math TeX Gyre}
-% \setmathfont(Digits,Latin,Greek){DejaVu Sans Condensed}
-  \setmathrm{DejaVu Serif Condensed}
-  \setmathtt{DejaVu Sans Mono}
-
-  \newcommand\textgreek[1]{#1}
-
-\else
-  \usepackage[T2A]{fontenc}
-%  \usepackage{ucs}
-  \usepackage[utf8]{inputenc}
-  \usepackage[greek,english,russian]{babel}
-
-  \usepackage{amsmath}
-  \usepackage{amsfonts}
-  \usepackage{amssymb}
-\fi
-
-\usepackage{xparse}
-
 \newcommand\grk[1]{\foreignlanguage{greek}{#1}}
 \newcommand\eng[1]{\foreignlanguage{english}{#1}}
 
@@ -74,6 +40,15 @@
     \maphead{#1}{\pretail\insetmap{#2}\posttail}}
 
 \makeatother
+
+\newcommand\simpleinset[3]{%
+  \begingroup%
+  \def\inset{#1}%
+  \def\mapitem{#2}%
+  \ensuremath{\insetmap{#3}}%
+  \endgroup}
+
+\newcommand\nomapinset[2]{\simpleinset{#1}{\identity}{#2}}
 
 % Произведения и кортежи
 

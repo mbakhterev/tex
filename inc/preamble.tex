@@ -1,0 +1,33 @@
+\usepackage{iftex}
+\usepackage{amsmath}
+\usepackage{xparse}
+
+\ifXeTeX
+  \usepackage{amsmath, mathspec}
+  \usepackage{polyglossia}
+  \setdefaultlanguage{russian}
+  \setotherlanguages{english}
+
+  \defaultfontfeatures{Ligatures=TeX}
+
+  \setmainfont{DejaVu Sans ExtraLight}
+  \setsansfont{DejaVu Sans ExtraLight}
+  \setmonofont{DejaVu Sans Mono}
+
+  \setmathfont(Digits,Latin,Greek){DejaVu Math TeX Gyre}
+% \setmathfont(Digits,Latin,Greek){DejaVu Sans Condensed}
+  \setmathrm{DejaVu Serif Condensed}
+  \setmathtt{DejaVu Sans Mono}
+
+  \newcommand\textgreek[1]{#1}
+
+\else
+  \usepackage[T2A]{fontenc}
+%  \usepackage{ucs}
+  \usepackage[utf8]{inputenc}
+  \usepackage[greek,english,russian]{babel}
+
+  \usepackage{amsmath}
+  \usepackage{amsfonts}
+  \usepackage{amssymb}
+\fi
