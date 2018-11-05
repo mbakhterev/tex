@@ -4,7 +4,7 @@
 \newcommand\eng[1]{\foreignlanguage{english}{#1}}
 
 % \newcommand\range[2]{\overline{{#1},{#2}}}
-\newcommand\range[2]{{#1}{:}{#2}}
+\newcommand\range[2]{{#1}{\ldots}{#2}}
 
 % Шрифт для идентификаторов доменов
 
@@ -152,7 +152,8 @@
        {\expandafter\ifx\get@first#1\relax\satom
           {#1}
         \else
-          \mathtt{#1}\fi}\fi}\fi}
+          \text{\texttt{#1}}\fi}\fi}\fi}
+
 
 \makeatother
 
