@@ -1,0 +1,21 @@
+\usepackage{listings}
+\usepackage{makecell}
+
+\lstset{
+  basicstyle=\ttfamily,
+  numberstyle=\ttfamily,
+  literate={-{}}{-{}}1 {\$}{\$}1 {L}{\texttt{\grk{l}}}1,
+  mathescape=false,
+  escapechar=§,
+  extendedchars=true}
+
+\lstdefinestyle{marks}{
+  moredelim=**[is][\color{red}]{@}{@},
+  moredelim=**[is][\color{blue}]{`}{`},
+  moredelim=**[is][\color{gray}]{\\}{\\}}
+
+\lstdefinestyle{cmarks}{
+  moredelim=**[is][\color{red}]{@}{@},
+  moredelim=**[is][\color{blue}]{`}{`}}
+
+\newenvironment{clist}{\begin{center}\begin{mcellbox}}{\end{mcellbox}\end{center}}

@@ -64,6 +64,8 @@
     {\productone{#1}}
     {\ensuremath{\prod_{#2=#3}^{#4}{#1_{#2}}}}}
 
+\newcommand\mproduct[4]{\ensuremath{\prod_{#2=#3}^{#4}{#1{#2}}}}
+
 \ifclassic
   \newcommand\enum[1]{%
     \begingroup%
@@ -159,7 +161,7 @@
 
 \newcommand\sexp[1]{%
   \begingroup%
-  \def\inset{\mathtt{\ }}%
+  \def\inset{\text{\texttt{\ }}}%
   \def\mapitem{\codeitem}%
   \ensuremath{\text{\texttt{(}}\insetmap{#1}\text{\texttt{)}}}%
   \endgroup}
@@ -261,8 +263,10 @@
 
 % \newcommand{\tuple}[1]{\seq{#1}}
 % \newcommand\tlen[1]{\card{\dom{#1}}}
-\newcommand\tlen[1]{{#1_{\#}}}
+% \newcommand\tlen[1]{{#1_{\#}}}
 \newcommand\tend[1]{{#1}_{\tlen{#1}-1}}
+
+\newcommand\tlen[1]{\fn{\mathrm{len} {#1}}}
 
 %  \begingroup\def\inset{\times} \def\doword{} {\words#1}\endgroup}
 
