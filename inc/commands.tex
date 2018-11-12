@@ -159,12 +159,14 @@
 
 \makeatother
 
-\newcommand\sexp[1]{%
+\newcommand\baresexp[1]{%
   \begingroup%
   \def\inset{\text{\texttt{\ }}}%
   \def\mapitem{\codeitem}%
-  \ensuremath{\text{\texttt{(}}\insetmap{#1}\text{\texttt{)}}}%
+  \ensuremath{\insetmap{#1}}%
   \endgroup}
+
+\newcommand\sexp[1]{\ensuremath{\text{\texttt{(}}\baresexp{#1}\text{\texttt{)}}}}
 
 \newcommand\satom[1]{\ensuremath{\text{\texttt{#1}}}}
 
