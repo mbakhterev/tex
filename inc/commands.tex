@@ -64,7 +64,7 @@
     {\productone{#1}}
     {\ensuremath{\prod_{#2=#3}^{#4}{#1_{#2}}}}}
 
-\newcommand\mproduct[4]{\ensuremath{\prod_{#2=#3}^{#4}{#1{#2}}}}
+\newcommand\mproduct[4]{\ensuremath{\textstyle{\prod}_{#2=#3}^{#4}{#1{#2}}}}
 
 \ifclassic
   \newcommand\enum[1]{%
@@ -119,23 +119,28 @@
 
 \newcommand\lam[1]{\ensuremath{\lambda#1\ldotp}}
 
+\newcommand{\capp}[1]{%
+  \begingroup%
+  \def\inset{,}%
+  \def\mapitem{\identity}%
+  \def\maphead{\identity}%
+  \def\pretail{(}%
+  \def\posttail{)}%
+  \ensuremath{\headsplitmap{#1}}%
+  \endgroup}
+
 \ifclassic
-  \newcommand{\app}[1]{%
-    \begingroup%
-    \def\inset{,}%
-    \def\mapitem{\identity}%
-    \def\maphead{\identity}%
-    \def\pretail{(}
-    \def\posttail{)}
-    \ensuremath{\headsplitmap{#1}}%
-    \endgroup}
+  \newcommand\app[1]{\capp{#1}}
+  \newcommand\papp[1]{\capp{#1}}
 \else
   \newcommand{\app}[1]{%
     \begingroup%
-    \def\inset{\ }%
+    \def\inset{\,}%
     \def\mapitem{\identity}%
-    \ensuremath{(\insetmap{#1})}%
+    \ensuremath{\insetmap{#1}}%
     \endgroup}
+
+  \newcommand{\papp}[1]{\ensuremath{(\app{#1})}}
 \fi
 
 % S-выражения
