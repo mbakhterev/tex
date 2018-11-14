@@ -260,7 +260,8 @@
 
 \makeatother
 
-\newcommand\bind[2]{{{#2}/{#1}}}
+\newcommand\bbind[2]{\ensuremath{{#1}/{#2}}}
+\newcommand\bind[2]{\ensuremath{[\bbind{#1}{#2}]}}
 \newcommand\bindc[2]{\tuple{\bind{\code{#1}}{\code{#2}}}}
 
 \newcommand\codespace[0]{\mbox{\texttt{ }}}
