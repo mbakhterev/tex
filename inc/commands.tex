@@ -1,3 +1,7 @@
+\usepackage{iftex}
+\usepackage{amsmath}
+\usepackage{xparse}
+
 % Различные простые макросы без возни с низкоуровневым TeX
 
 \newcommand\grk[1]{\foreignlanguage{greek}{#1}}
@@ -189,14 +193,14 @@
 
 % CSP
 
-\newcommand\procop[0]{\ensuremath{\twoheadrightarrow}}
+% \newcommand\procop[0]{\ensuremath{\twoheadrightarrow}}
 
-\newcommand\proc[1]{%
-  \begingroup%
-  \def\inset{\procop}%
-  \def\mapitem{\identity}%
-  \ensuremath{\insetmap{#1}}%
-  \endgroup}
+% \newcommand\proc[1]{%
+%   \begingroup%
+%   \def\inset{\procop}%
+%   \def\mapitem{\identity}%
+%   \ensuremath{\insetmap{#1}}%
+%   \endgroup}
 
 \newcommand\pc[1]{\proc{#1}}
 
@@ -430,7 +434,8 @@
 \newcommand\In[1]{#1}
 \newcommand\Wr[1]{#1}
 
-\newcommand\lx[1]{\grk{l}-#1}
+% \newcommand\lx[1]{\grk{l}-#1}
+\newcommand\lx[1]{\ensuremath{\lambda}-#1}
 \newcommand\px[1]{\grk{p}-#1}
 
 \newcommand\im[1]{\capp{\mathrm{im} {#1}}}
