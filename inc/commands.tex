@@ -25,6 +25,8 @@
 \def\im@end{\relax}
 \def\insetmap#1{\im@loop#1 \im@end\relax}
 
+% Здесь \begingroup и \endgroup использованы для ограничения области видимости
+% определения \im@next
 \def\im@loop#1 #2\relax{%
   \begingroup%
   \ifx \im@end#2%
@@ -56,19 +58,28 @@
 
 % Произведения и кортежи
 
-\newcommand\productone[1]{%
-  \begingroup%
-  \def\inset{\times}%
-  \def\mapitem{\identity}%
-  \ensuremath{\insetmap{#1}}%
-  \endgroup}
+% \newcommand\productone[1]{%
+%   \begingroup%
+%   \def\inset{\times}%
+%   \def\mapitem{\identity}%
+%   \ensuremath{\insetmap{#1}}%
+%   \endgroup}
 
 \NewDocumentCommand\product{mggg}{%
   \IfNoValueTF{#4}
-    {\productone{#1}}
-    {\ensuremath{\prod_{#2=#3}^{#4}{#1_{#2}}}}}
+    {\IfNoValueTF{#3}
+      {\nomapinset{\times}{#1}}
+      {\ensuremath{\prod_{{#2}=1}^{#3}{{#1}_{#2}}}}}
+    {\ensuremath{\prod_{#2=#3}^{#4}{{#1}_{#2}}}}}
 
-\newcommand\mproduct[4]{\ensuremath{\textstyle{\prod}_{#2=#3}^{#4}{#1{#2}}}}
+\NewDocumentCommand\mproduct{mmgg}{%
+  \IfNoValueTF{#4}
+    {\IfNoValueTF{#3}
+      {\simpleinset{\times}{#1}{#2}}
+      {\ensuremath{\prod_{{#2}=1}^{#3}{#1{#2}}}}}
+    {\ensuremath{\prod_{#2=#3}^{#4}{#1{#2}}}}}
+
+% \newcommand\mproduct[4]{\ensuremath{\textstyle{\prod}_{#2=#3}^{#4}{#1{#2}}}}
 
 \ifclassic
   \newcommand\enum[1]{%
