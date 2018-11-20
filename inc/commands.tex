@@ -9,9 +9,6 @@
 
 \newcommand\range[2]{\enum{{#1} {\ldots} {#2}}}
 
-% Шрифт для идентификаторов доменов
-
-
 \newif\ifclassic
 \classicfalse
 
@@ -61,6 +58,22 @@
 
 \newcommand\bigop[5]{\ensuremath{#1_{{#3}={#4}}^{#5}{{#2}_{#3}}}}
 \newcommand\mbigop[5]{\ensuremath{#1_{{#3}={#4}}^{#5}{#2{#3}}}}
+
+% Генерация команд для различных операторов. Использование примерно такое:
+% \opscheme{\product}{\prod}{\times}{\identity} последнй параметр -- это обёртка
+% для выражения. Для \DSum, например, необходимо добавить ()⊥
+
+\newcommand\opscheme[4]{%
+  \NewDocumentCommand#1{mggg}{%
+    \IfNoValueTF{##4}
+      {\IfNoValueTF{##3}
+        {\nomapinset{#3}{##1}}
+        {#1{##1}{##2}{##3}{1}{##4}}}
+        {\bigop{}}
+}
+
+\newcommand\mopscheme[3]{%
+}
 
 % Домены
 
