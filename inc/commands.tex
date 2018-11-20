@@ -15,6 +15,14 @@
 \newcommand\identity[1]{#1}
 \newcommand\esc[1]{#1}
 
+% ДВИЖОК ПОДСТАНОВКИ. Этот набор макросов нужен для вставки различных
+% конструкций между и вокруг элементами списка атомов (кажется, в терминологии
+% TeX они называются токенами), разделённых пробелами. Например:
+%
+%   \simpleinset{\times}{\identity}{a bc de g}
+%
+% должно раскрываться в: \ensuremath{a \times bc \times de \times g}
+
 \makeatletter
 
 \def\im@end{\relax}
@@ -24,12 +32,12 @@
 % определения \im@next
 
 \def\im@loop#1 #2\relax{%
-  \begingroup%
-  \ifx \im@end#2%
-    \def\im@next{\endgroup\mapitem{#1}\relax}%
+  \begingroup
+  \ifx \im@end#2
+    \def\im@next{\endgroup\mapitem{#1}\relax}
   \else%
     \def\im@next{\endgroup\mapitem{#1}\relax\expandafter\inset\im@loop#2\relax}%
-  \fi%
+  \fi
   \im@next
 }
 
@@ -54,12 +62,30 @@
 
 \newcommand\nomapinset[2]{\simpleinset{#1}{\identity}{#2}}
 
-% Схемы для различных «больших» операций (\prod, etc)
+% ДВИЖОК ПОДСТАНОВКИ. КОНЕЦ
+
+% СХЕМЫ. Схемами названы генераторы новых макросов по некоторым схемам. Очень
+% много схожего между, например, \product и \unite: ассоциативные операторы,
+% цепочки применений которых отличаются только лишь знаком, между элементами.
+% Поэтому такие определения выделены в схемы.
+%
+% В именах схем используется два префикса. Префикс m -- для генерации схемы,
+% которая работает с поэлементным макросом. Например:
+%
+%   \newcommand\si[1]{s_{#}} \mopscheme{\sumof}{+}{\sum}
+%
+%   \sumof{\si}{1 2 3}
+%
+% должно раскрыться до: s_1 + s_2 + s_3. Префикс d -- для генерации схемы с
+% разнообразными декорациями: поэлементными и для генерируемых выражений
+% целиком.
+
+% Автоматизация выставления индексов для больших операторов (\prod, etc).
 
 \newcommand\bigop[5]{\ensuremath{#1_{{#3}={#4}}^{#5}{{#2}_{#3}}}}
 \newcommand\mbigop[5]{\ensuremath{#1_{{#3}={#4}}^{#5}{#2{#3}}}}
 
-% Схемы для различных операторов. Использование примерно такое:
+% Схемы для различных ассоциативных операторов. Использование примерно такое:
 %
 % \opscheme{\product}{\prod}{\times} -- простая схема для большинства случаев.
 %
@@ -86,15 +112,17 @@
         {#1{##1}{##2}{1}{##3}}}
        {\bigop{#2}{##1}{##2}{##3}{##4}}}}
 
+% \dots не должны попасть под украшение для элементов (пераметр 4). Поэтому
+% отдельная обработка
 \newcommand\dopscheme[6]{%
   \NewDocumentCommand#1{mggg}{%
     \IfNoValueTF{##4}
       {\IfNoValueTF{##3}
         {\IfNoValueTF{##2}
           {\ensuremath{#5{\simpleinset{#3}{#4}{##1}}}}
-          {#1{{##1} {\dots} {##2}}}}
+          {\ensuremath{#5{\nomapinset{#3}{{#4{##1}} {\dots} {#4{##2}}}}}}}
         {#1{##1}{##2}{1}{##3}}}
-    {\ensuremath{{#6{\bigop{#2}{##1}{##2}{##3}{##4}}}}}}}
+    {\ensuremath{{#6{\bigop{#2}{#4{##1}}{##2}{##3}{##4}}}}}}}
 
 \newcommand\mopscheme[3]{%
   \NewDocumentCommand#1{mmgg}{%
@@ -112,9 +140,64 @@
         {#1{##1}{##2}{1}{##3}}}
     {\ensuremath{#5{\mbigop{#2}{##1}{##2}{##3}{##4}}}}}}
 
-% Генерация схем с индексами
+% Схема с индексами
 
 \newcommand\idxscheme[2]{\newcommand#1[1]{\ensuremath{{#2}_{##1}}}}
+
+% Нечто вроде
+%
+%   \newcommand\midxscheme[2]{\newcommand#1[1]{\ensuremath{#2{##1}}}}
+%
+% здесь бессмысленно.
+
+% Схемы перечислений: множества, последовательности. Используются примерно так:
+%
+%   \denumscheme{\easet}{,}{\atom}{\set}
+%
+% 3-й параметра -- поэлементный декоратор; 4-й -- декоратор всего выражения.
+
+\newcommand\Enum[4]{\ensuremath{{#1}_{{#2}={#3}}^{#4}}}
+\newcommand\mEnum[4]{\ensuremath{{#1{#2}}_{{#2}={#3}}^{#4}}}
+
+\newcommand\enumscheme[2]{%
+  \NewDocumentCommand#1{mggg}{%
+    \IfNoValueTF{##4}
+      {\IfNoValueTF{##3}
+        {\IfNoValueTF{##2}
+          {\nomapinset{#2}{##1}}
+          {#1{{##1} {\dots} {##2}}}}
+        {#1{##1}{##2}{1}{##3}}}
+      {\Enum{##1}{##2}{##3}{##4}}}}
+
+\newcommand\denumscheme[4]{%
+  \NewDocumentCommand#1{mggg}{%
+    \IfNoValueTF{##4}
+      {\IfNoValueTF{##3}
+        {\IfNoValueTF{##2}
+          {\ensuremath{#4{\simpleinset{#2}{#3}{##1}}}}
+          {\ensuremath{#4{\nomapinset{#2}{{#3{##1}} {\ldots} {#3{##2}}}}}}}
+        {#1{##1}{##2}{1}{##3}}}
+    {\ensuremath{#4{\Enum{##1}{##2}{##3}{##4}}}}}}
+
+\newcommand\menumscheme[2]{%
+  \NewDocumentCommand#1{mmgg}{%
+    \IfNoValueTF{##4}
+      {\IfNoValueTF{##3}
+        {\simpleinset{#2}{##1}{##2}}
+        {#1{##1}{##2}{1}{##3}}}
+      {\mEnum{##1}{##2}{##3}{##4}}}}
+
+\newcommand\dmenumscheme[3]{%
+  \NewDocumentCommand#1{mmgg}{%
+    \IfNoValueTF{##4}
+      {\IfNoValueTF{##3}
+        {\ensuremath{#3{\simpleinset{#2}{##1}{##2}}}}
+        {#1{##1}{##2}{1}{##3}}}
+    {\ensuremath{#3{\mEnum{##1}{##2}{##3}{##4}}}}}}
+
+% Схемы для определения функций.
+
+% СХЕМЫ. КОНЕЦ
 
 % Различные скобки
 
@@ -189,20 +272,6 @@
 \opscheme{\product}{\prod}{\times}
 \mopscheme{\mproduct}{\prod}{\times}
 
-% \NewDocumentCommand\product{mggg}{%
-%   \IfNoValueTF{#4}
-%     {\IfNoValueTF{#3}
-%       {\nomapinset{\times}{#1}}
-%       {\product{#1}{#2}{1}{#3}}}
-%     {\bigop{\prod}{#1}{#2}{#3}{#4}}}
-
-% \NewDocumentCommand\mproduct{mmgg}{%
-%   \IfNoValueTF{#4}
-%     {\IfNoValueTF{#3}
-%       {\simpleinset{\times}{#1}{#2}}
-%       {\mproduct{#1}{#2}{1}{#3}}}
-%     {\mbigop{\prod}{#1}{#2}{#3}{#4}}}
-
 \newcommand\prj[2]{\ensuremath{\pi^{#1}_{\enum{#2}}}}
 
 % Суммы доменов
@@ -210,46 +279,17 @@
 \dopscheme{\oneof}{\sum}{+}{\identity}{\pars}{\Pars}
 \dmopscheme{\moneof}{\sum}{+}{\pars}{\Pars}
 
-% \newcommand\oneofone[1]{%
-%   \begingroup%
-%   \def\inset{+}%
-%   \def\mapitem{\identity}%
-%   \ensuremath{\insetmap{#1}}%
-%   \endgroup}
-% 
-% \NewDocumentCommand\oneof{mggg}{%
-%   \IfNoValueTF{#4}
-%     {\oneofone{#1}}
-%     {\ensuremath{\sum_{#2=#3}^{#4}{#1_{#2}}}}}
-
 \newcommand\inj[2]{\ensuremath{\epsilon^{#1}_{\enum{#2}}}}
 
 % Последовательности и множества
 
-% Схемы для определения перечислений. Примерно таким образом:
-% \enumscheme{\eset}{,}{\set}. Последний параметра -- декоратор полученного
-% выражения. Скобки, в основном.
+\enumscheme{\cenum}{,}
 
-\newcommand\enumscheme[3]{%
-  \NewDocumentCommand#1{mggg}{%
-    \IfNoValueTF{##4}
-      {\IfNoValueTF{##3}
-        {\IfNoValueTF{##2}
-          {\ensuremath{#3{\nomapinset{#2}{##1}}}}
-          {#1{{##1} {\dots} {##2}}}}
-        {#1{##1}{##2}{1}{##3}}}
-    {\ensuremath{#3{{##1}_{{##2}={##3}}^{##4}}}}}}
-
-\newcommand\menumscheme[3]{%
-}
-
-\enumscheme{\enum}{,}{\identity}
-
-% \ifclassic
-%   \newcommand\enum[1]{\nomapinset{,}{#1}}
-% \else
-%   \newcommand\enum[1]{\nomapinset{\ }{#1}}
-% \fi
+\ifclassic
+  \enumscheme{\enum}{,}
+\else
+  \enumscheme{\enum}{\ }
+\fi
 
 \NewDocumentCommand\seqcore{mggg}{%
   \IfNoValueTF{#3}
