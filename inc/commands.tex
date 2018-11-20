@@ -59,28 +59,58 @@
 \newcommand\bigop[5]{\ensuremath{#1_{{#3}={#4}}^{#5}{{#2}_{#3}}}}
 \newcommand\mbigop[5]{\ensuremath{#1_{{#3}={#4}}^{#5}{#2{#3}}}}
 
-% Генерация команд для различных операторов. Использование примерно такое:
-% \opscheme{\product}{\prod}{\times}{\identity}{\identity} последнй параметр --
-% это обёртка для выражения. Для \DSum, например, необходимо добавить ()⊥.
-% Параметра два, чтобы иметь возможность поставить большие скобки
+% Схемы для различных операторов. Использование примерно такое:
+%
+% \opscheme{\product}{\prod}{\times} -- простая схема для большинства случаев.
+%
+% \dopscheme{\product}{\prod}{\times}{\Dom}{\identity}{\identity} -- схема с
+% декорациями. Последние три параметра украшают полученное выражение: элементы
+% операции, итоговое выражение без большого оператора, итоговое выражение с
+% большим оператором.
+%
+% \mopscheme{\product}{\prod}{\times} -- простая схема, генерирующая команду,
+% которая работает с макросом, а не с названием элемента.
+%
+% \dmopscheme{\product}{\prod}{\times}{\identity}{\identity} -- команда с
+% украшением. Украшать сам элемент не нужно (это делает макрос, передаваемый
+% параметром в сгенерированную команду, поэтому украшения всего два: для
+% итоговых формул.
 
-\newcommand\opscheme[5]{%
+\newcommand\opscheme[3]{%
   \NewDocumentCommand#1{mggg}{%
     \IfNoValueTF{##4}
       {\IfNoValueTF{##3}
         {\IfNoValueTF{##2}
-          {\ensuremath{#4{\nomapinset{#3}{##1}}}}
+          {\ensuremath{\nomapinset{#3}{##1}}}
           {#1{{##1} {\dots} {##2}}}}
         {#1{##1}{##2}{1}{##3}}}
-       {#5{\bigop{#2}{##1}{##2}{##3}{##4}}}}}
+       {\bigop{#2}{##1}{##2}{##3}{##4}}}}
 
-\newcommand\mopscheme[5]{%
+\newcommand\dopscheme[6]{%
+  \NewDocumentCommand#1{mggg}{%
+    \IfNoValueTF{##4}
+      {\IfNoValueTF{##3}
+        {\IfNoValueTF{##2}
+          {\ensuremath{#5{\simpleinset{#3}{#4}{##1}}}}
+          {#1{{##1} {\dots} {##2}}}}
+        {#1{##1}{##2}{1}{##3}}}
+    {\ensuremath{{#6{\bigop{#2}{##1}{##2}{##3}{##4}}}}}}}
+
+\newcommand\mopscheme[3]{%
+  \NewDocumentCommand#1{mmgg}{%
+    \IfNoValueTF{##4}
+      {\IfNoValueTF{##3}
+        {\simpleinset{#3}{##1}{##2}}
+        {#1{##1}{##2}{1}{##3}}}
+    {\mbigop{#2}{##1}{##2}{##3}{##4}}}}
+
+\newcommand\dmopscheme[5]{%
   \NewDocumentCommand#1{mmgg}{%
     \IfNoValueTF{##4}
       {\IfNoValueTF{##3}
         \ensuremath{{#4{\simpleinset{#3}{##1}{##2}}}}
         {#1{##1}{##2}{1}{##3}}}
-      {#5{\mbigop{#2}{##1}{##2}{##3}{##4}}}}}
+    {\ensuremath{#5{\mbigop{#2}{##1}{##2}{##3}{##4}}}}}}
 
 % Генерация схем с индексами
 
@@ -90,6 +120,12 @@
 
 \newcommand\pars[1]{\ensuremath{(#1)}}
 \newcommand\Pars[1]{\ensuremath{\left(#1\right)}}
+
+\newcommand\brkt[1]{\ensuremath{[#1]}}
+\newcommand\Brkt[1]{\ensuremath{\left[#1\right]}}
+
+\newcommand\bras[1]{\ensuremath{\{#1\}}}
+\newcommand\Bras[1]{\ensuremath{\left\{#1\right\}}}
 
 % Домены
 
@@ -101,6 +137,8 @@
   \else\expandafter\ifx\get@first#1\relax\esc
     {#1}
   \else\expandafter\ifx\get@first#1\relax\Dom
+    {#1}
+  \else\expandafter\ifx\get@first#1\relax\DNm
     {#1}
   \else\expandafter\ifx\get@first#1\relax\KStar
     {#1}
@@ -114,11 +152,27 @@
     {#1}
   \else
     \mathrm{#1}
-  \fi\fi\fi\fi\fi\fi\fi\fi}
+  \fi\fi\fi\fi\fi\fi\fi\fi\fi}
 
 \makeatother
 
-\newcommand\Dom[1]{\ensuremath{\domitem{#1}}}
+% Стиль имён доменов
+
+\newcommand\DNm[1]{\ensuremath{\domitem{#1}}}
+
+\newcommand\Dom[1]{\ensuremath{{#1}_\bot}}
+
+\newcommand\DBot[1]{\ensuremath{\bot_{\DNm{#1}}}}
+
+\newcommand\DABot[1]{\ensuremath{\bot_{\atom{#1}}}}
+
+% Скобки для доменных выражений
+
+\newcommand\dset[1]{\Dom{\set{#1}}}
+\newcommand\DSet[1]{\Dom{\Bras{#1}}}
+
+\newcommand\dpars[1]{\Dom{\pars{#1}}}
+\newcommand\DPars[1]{\Dom{\Pars{#1}}}
 
 % Звёздочка Клини для переменных и доменов
 
@@ -127,13 +181,13 @@
 \newcommand\KStar[1]{\kstar{\Dom{#1}}}
 \newcommand\KPlus[1]{\kplus{\Dom{#1}}}
 
-\newcommand\DSum[1]{}
-\newcommand\DProd[1]{}
+\dopscheme{\DProd}{\prod}{\times}{\DNm}{\identity}{\identity}
+\dopscheme{\DSum}{\sum}{+}{\DNm}{\dpars}{\DPars}
 
 % Произведения доменов
 
-\opscheme{\product}{\prod}{\times}{\identity}{\identity}
-\mopscheme{\mproduct}{\prod}{\times}{\identity}{\identity}
+\opscheme{\product}{\prod}{\times}
+\mopscheme{\mproduct}{\prod}{\times}
 
 % \NewDocumentCommand\product{mggg}{%
 %   \IfNoValueTF{#4}
@@ -153,8 +207,8 @@
 
 % Суммы доменов
 
-\opscheme{\oneof}{\sum}{+}{\pars}{\Pars}
-\mopscheme{\moneof}{\sum}{+}{\pars}{\Pars}
+\dopscheme{\oneof}{\sum}{+}{\identity}{\pars}{\Pars}
+\dmopscheme{\moneof}{\sum}{+}{\pars}{\Pars}
 
 % \newcommand\oneofone[1]{%
 %   \begingroup%
@@ -285,6 +339,8 @@
  \fi\fi\fi\fi}
 
 \makeatother
+
+\newcommand\atom[1]{}
 
 \newcommand\baresexp[1]{%
   \begingroup%
