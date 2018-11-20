@@ -195,7 +195,64 @@
         {#1{##1}{##2}{1}{##3}}}
     {\ensuremath{#3{\mEnum{##1}{##2}{##3}{##4}}}}}}
 
-% Схемы для определения функций.
+% Определение последовательности. Штука либо показывается заданным способом 2
+% аргумент, либо показывается, как аппликация функции к указанному аргументу.
+
+\newcommand\seqscheme[2]{%
+  \NewDocumentCommand#1{g}{%
+    \IfNoValueTF{##1}
+      {\ensuremath{#2}}
+      {\ifx\relax##1\relax{\ensuremath{#2}}\else{\app{#2}{##1}}\fi}}}
+
+% Схемы для определения функций. Функциональный (f x y) и классический
+% f(x,y) стили. Декорация подразумевается для изменения скобок
+
+\newcommand\cappargs[1]{\nomapinset{,}{#1}}
+\newcommand\appargs[1]{\nomapinset{\ }{#1}}
+
+\newcommand\capp[2]{\ensuremath{{#1}\pars{\cappargs{#2}}}}
+\newcommand\dcapp[3]{\ensuremath{{#1}{#3{\cappargs{#2}}}}}
+
+\newcommand\app[2]{\pars{{#1}\ \appargs{#2}}}
+\newcommand\dapp[3]{\ensuremath{#3{{#1}\ \appargs{#2}}}}
+
+\newcommand\cfnscheme[2]{%
+  \NewDocumentCommand#1{g}{%
+    \IfNoValueTF{##1}
+      {\ensuremath{#2}}
+      {\ifx\relax##1\relax{\ensuremath{#2}}\else{\capp{#2}{##1}}\fi}}}
+
+\newcommand\dcfnscheme[3]{%
+  \NewDocumentCommand#1{g}{%
+    \IfNoValueTF{##1}
+      {\ensuremath{#2}}
+      {\ifx\relax##1\relax{\ensuremath{#2}}\else{\dcapp{#2}{##1}{#3}}\fi}}}
+
+\ifclassic
+  \newcommand\fnscheme[2]{%
+    \NewDocumentCommand#1{g}{%
+      \IfNoValueTF{##1}
+        {\ensuremath{#2}}
+        {\ifx\relax##1\relax{\ensuremath{#2}}\else{\capp{#2}{##1}}\fi}}}
+
+  \newcommand\dfnscheme[3]{%
+    \NewDocumentCommand#1{g}{%
+      \IfNoValueTF{##1}
+        {\ensuremath{#2}}
+        {\ifx\relax##1\relax{\ensuremath{#2}}\else{\dcapp{#2}{##1}{#3}}\fi}}}
+\else
+  \newcommand\fnscheme[2]{%
+    \NewDocumentCommand#1{g}{%
+      \IfNoValueTF{##1}
+        {\ensuremath{#2}}
+        {\ifx\relax##1\relax{\ensuremath{#2}}\else{\app{#2}{##1}}\fi}}}
+
+  \newcommand\dfnscheme[3]{%
+    \NewDocumentCommand#1{g}{%
+      \IfNoValueTF{##1}
+        {\ensuremath{#2}}
+        {\ifx\relax##1\relax{\ensuremath{#2}}\else{\dapp{#2}{##1}{#3}}\fi}}}
+\fi
 
 % СХЕМЫ. КОНЕЦ
 
@@ -209,6 +266,8 @@
 
 \newcommand\bras[1]{\ensuremath{\{#1\}}}
 \newcommand\Bras[1]{\ensuremath{\left\{#1\right\}}}
+
+\newcommand\spars[1]{\ensuremath{\atom{(}{#1}\atom{)}}}
 
 % Домены
 
@@ -325,45 +384,33 @@
 
 \newcommand\lam[1]{\ensuremath{\lambda#1\ldotp}}
 
-\newcommand{\capp}[1]{%
-  \begingroup%
-  \def\inset{,}%
-  \def\mapitem{\identity}%
-  \def\maphead{\identity}%
-  \def\pretail{(}%
-  \def\posttail{)}%
-  \ensuremath{\headsplitmap{#1}}%
-  \endgroup}
-
-\ifclassic
-  \newcommand\app[1]{\capp{#1}}
-  \newcommand\papp[1]{\capp{#1}}
-\else
-  \newcommand{\app}[1]{%
-    \begingroup%
-    \def\inset{\,}%
-    \def\mapitem{\identity}%
-    \ensuremath{\insetmap{#1}}%
-    \endgroup}
-
-  \newcommand{\papp}[1]{\ensuremath{(\app{#1})}}
-\fi
+% \newcommand{\capp}[1]{%
+%   \begingroup%
+%   \def\inset{,}%
+%   \def\mapitem{\identity}%
+%   \def\maphead{\identity}%
+%   \def\pretail{(}%
+%   \def\posttail{)}%
+%   \ensuremath{\headsplitmap{#1}}%
+%   \endgroup}
+% 
+% \ifclassic
+%   \newcommand\app[1]{\capp{#1}}
+%   \newcommand\papp[1]{\capp{#1}}
+% \else
+%   \newcommand{\app}[1]{%
+%     \begingroup%
+%     \def\inset{\,}%
+%     \def\mapitem{\identity}%
+%     \ensuremath{\insetmap{#1}}%
+%     \endgroup}
+% 
+%   \newcommand{\papp}[1]{\ensuremath{(\app{#1})}}
+% \fi
 
 % S-выражения
 
 \makeatletter
-
-% \newcommand\codeitem[1]{%
-%   \expandafter\ifx\get@first#1\relax\esc
-%     {#1}
-%   \else
-%     {\expandafter\ifx\get@first#1\relax\sexp
-%        {#1}
-%      \else
-%        {\expandafter\ifx\get@first#1\relax\satom
-%           {#1}
-%         \else
-%           \text{\texttt{#1}}\fi}\fi}\fi}
 
 \newcommand\codeitem[1]{%
   \ifx\relax#1\relax
@@ -380,8 +427,6 @@
 
 \makeatother
 
-\newcommand\atom[1]{}
-
 \newcommand\baresexp[1]{%
   \begingroup%
   \def\inset{\text{\texttt{\ }}}%
@@ -391,6 +436,7 @@
 
 \newcommand\sexp[1]{\ensuremath{\text{\texttt{(}}\baresexp{#1}\text{\texttt{)}}}}
 
+\newcommand\atom[1]{\ensuremath{\text{\texttt{#1}}}}
 \newcommand\satom[1]{\ensuremath{\text{\texttt{#1}}}}
 
 \newcommand\fn[1]{\app{#1}}
@@ -486,7 +532,7 @@
 % \newcommand\tlen[1]{{#1_{\#}}}
 \newcommand\tend[1]{{#1}_{\tlen{#1}-1}}
 
-\newcommand\tlen[1]{\capp{\mathrm{len} {#1}}}
+% \newcommand\tlen[1]{\capp{\mathrm{len} {#1}}}
 
 %  \begingroup\def\inset{\times} \def\doword{} {\words#1}\endgroup}
 
@@ -646,4 +692,6 @@
 \newcommand\lx[1]{\ensuremath{\lambda}-#1}
 \newcommand\px[1]{\grk{p}-#1}
 
-\newcommand\im[1]{\capp{\mathrm{im} {#1}}}
+% \newcommand\im[1]{\capp{\mathrm{im} {#1}}}
+
+\cfnscheme{\im}{\mathrm{im}}
