@@ -60,20 +60,36 @@
 \newcommand\mbigop[5]{\ensuremath{#1_{{#3}={#4}}^{#5}{#2{#3}}}}
 
 % Генерация команд для различных операторов. Использование примерно такое:
-% \opscheme{\product}{\prod}{\times}{\identity} последнй параметр -- это обёртка
-% для выражения. Для \DSum, например, необходимо добавить ()⊥
+% \opscheme{\product}{\prod}{\times}{\identity}{\identity} последнй параметр --
+% это обёртка для выражения. Для \DSum, например, необходимо добавить ()⊥.
+% Параметра два, чтобы иметь возможность поставить большие скобки
 
-\newcommand\opscheme[4]{%
+\newcommand\opscheme[5]{%
   \NewDocumentCommand#1{mggg}{%
     \IfNoValueTF{##4}
       {\IfNoValueTF{##3}
-        {\nomapinset{#3}{##1}}
-        {#1{##1}{##2}{##3}{1}{##4}}}
-        {\bigop{}}
-}
+        {\IfNoValueTF{##2}
+          {\ensuremath{#4{\nomapinset{#3}{##1}}}}
+          {#1{{##1} {\dots} {##2}}}}
+        {#1{##1}{##2}{1}{##3}}}
+       {#5{\bigop{#2}{##1}{##2}{##3}{##4}}}}}
 
-\newcommand\mopscheme[3]{%
-}
+\newcommand\mopscheme[5]{%
+  \NewDocumentCommand#1{mmgg}{%
+    \IfNoValueTF{##4}
+      {\IfNoValueTF{##3}
+        \ensuremath{{#4{\simpleinset{#3}{##1}{##2}}}}
+        {#1{##1}{##2}{1}{##3}}}
+      {#5{\mbigop{#2}{##1}{##2}{##3}{##4}}}}}
+
+% Генерация схем с индексами
+
+\newcommand\idxscheme[2]{\newcommand#1[1]{\ensuremath{{#2}_{##1}}}}
+
+% Различные скобки
+
+\newcommand\pars[1]{\ensuremath{(#1)}}
+\newcommand\Pars[1]{\ensuremath{\left(#1\right)}}
 
 % Домены
 
@@ -114,45 +130,72 @@
 \newcommand\DSum[1]{}
 \newcommand\DProd[1]{}
 
-% Произведения
+% Произведения доменов
 
-\NewDocumentCommand\product{mggg}{%
-  \IfNoValueTF{#4}
-    {\IfNoValueTF{#3}
-      {\nomapinset{\times}{#1}}
-      {\product{#1}{#2}{1}{#3}}}
-    {\bigop{\prod}{#1}{#2}{#3}{#4}}}
+\opscheme{\product}{\prod}{\times}{\identity}{\identity}
+\mopscheme{\mproduct}{\prod}{\times}{\identity}{\identity}
 
-\NewDocumentCommand\mproduct{mmgg}{%
-  \IfNoValueTF{#4}
-    {\IfNoValueTF{#3}
-      {\simpleinset{\times}{#1}{#2}}
-      {\mproduct{#1}{#2}{1}{#3}}}
-    {\mbigop{\prod}{#1}{#2}{#3}{#4}}}
+% \NewDocumentCommand\product{mggg}{%
+%   \IfNoValueTF{#4}
+%     {\IfNoValueTF{#3}
+%       {\nomapinset{\times}{#1}}
+%       {\product{#1}{#2}{1}{#3}}}
+%     {\bigop{\prod}{#1}{#2}{#3}{#4}}}
 
-% Суммы
+% \NewDocumentCommand\mproduct{mmgg}{%
+%   \IfNoValueTF{#4}
+%     {\IfNoValueTF{#3}
+%       {\simpleinset{\times}{#1}{#2}}
+%       {\mproduct{#1}{#2}{1}{#3}}}
+%     {\mbigop{\prod}{#1}{#2}{#3}{#4}}}
 
-\newcommand\oneofone[1]{%
-  \begingroup%
-  \def\inset{+}%
-  \def\mapitem{\identity}%
-  \ensuremath{\insetmap{#1}}%
-  \endgroup}
+\newcommand\prj[2]{\ensuremath{\pi^{#1}_{\enum{#2}}}}
 
-\NewDocumentCommand\oneof{mggg}{%
-  \IfNoValueTF{#4}
-    {\oneofone{#1}}
-    {\ensuremath{\sum_{#2=#3}^{#4}{#1_{#2}}}}}
+% Суммы доменов
+
+\opscheme{\oneof}{\sum}{+}{\pars}{\Pars}
+\mopscheme{\moneof}{\sum}{+}{\pars}{\Pars}
+
+% \newcommand\oneofone[1]{%
+%   \begingroup%
+%   \def\inset{+}%
+%   \def\mapitem{\identity}%
+%   \ensuremath{\insetmap{#1}}%
+%   \endgroup}
+% 
+% \NewDocumentCommand\oneof{mggg}{%
+%   \IfNoValueTF{#4}
+%     {\oneofone{#1}}
+%     {\ensuremath{\sum_{#2=#3}^{#4}{#1_{#2}}}}}
 
 \newcommand\inj[2]{\ensuremath{\epsilon^{#1}_{\enum{#2}}}}
 
 % Последовательности и множества
 
-\ifclassic
-  \newcommand\enum[1]{\nomapinset{,}{#1}}
-\else
-  \newcommand\enum[1]{\nomapinset{\ }{#1}}
-\fi
+% Схемы для определения перечислений. Примерно таким образом:
+% \enumscheme{\eset}{,}{\set}. Последний параметра -- декоратор полученного
+% выражения. Скобки, в основном.
+
+\newcommand\enumscheme[3]{%
+  \NewDocumentCommand#1{mggg}{%
+    \IfNoValueTF{##4}
+      {\IfNoValueTF{##3}
+        {\IfNoValueTF{##2}
+          {\ensuremath{#3{\nomapinset{#2}{##1}}}}
+          {#1{{##1} {\dots} {##2}}}}
+        {#1{##1}{##2}{1}{##3}}}
+    {\ensuremath{#3{{##1}_{{##2}={##3}}^{##4}}}}}}
+
+\newcommand\menumscheme[3]{%
+}
+
+\enumscheme{\enum}{,}{\identity}
+
+% \ifclassic
+%   \newcommand\enum[1]{\nomapinset{,}{#1}}
+% \else
+%   \newcommand\enum[1]{\nomapinset{\ }{#1}}
+% \fi
 
 \NewDocumentCommand\seqcore{mggg}{%
   \IfNoValueTF{#3}
@@ -171,7 +214,6 @@
 \newcommand\tuple[1]{\ensuremath{[\enum{#1}]}}
 \newcommand\Tuple[1]{\ensuremath{\left[\enum{#1}\right]}}
 
-\newcommand\prj[2]{\ensuremath{\pi^{#1}_{\enum{#2}}}}
 
 \NewDocumentCommand\tailinj{mmg}{%
   \IfNoValueTF{#3}
