@@ -64,65 +64,156 @@
 
 % ДВИЖОК ПОДСТАНОВКИ. КОНЕЦ
 
-% СХЕМЫ. Схемами названы генераторы новых макросов по некоторым схемам. Очень
+% СХЕМЫ. Схемами названы генераторы новых команд по некоторым схемам. Очень
 % много схожего между, например, \product и \unite: ассоциативные операторы,
 % цепочки применений которых отличаются только лишь знаком, между элементами.
 % Поэтому такие определения выделены в схемы.
 %
-% В именах схем используется два префикса. Префикс m -- для генерации схемы,
-% которая работает с поэлементным макросом. Например:
+% В предыдущем варианте схемы генерировали команды с переменным количеством
+% аргументов при помощи \NewDocumentCommand. Это экономит идетификаторы команды,
+% но довольно часто требует завершать обращения к командам \relax-ами. Что
+% представляется неудобным. Кроме того, ощутимо (на слабых процессорах)
+% увеличивается время компиляции. Поэтому текущая версия схем предлагает
+% генерацию простых команд при помощи \newcommand. Формируемые команды
+% различаются суффиксами.
 %
-%   \newcommand\si[1]{s_{#}} \mopscheme{\sumof}{+}{\sum}
+%   i -- некоторый Identifier. Команда без аргументов, выдающая обозначение
+%   операции. Для функций, например, это имя функции. 
 %
-%   \sumof{\si}{1 2 3}
+%   x -- простое eXpression. Команда с одним аргументом (который может быть
+%   списком, разделённых пробелом элементов, формирующая простое
+%   выражение. \sumx{1 2 3} → 1 + 2 + 3.
 %
-% должно раскрыться до: s_1 + s_2 + s_3. Префикс d -- для генерации схемы с
-% разнообразными декорациями: поэлементными и для генерируемых выражений
-% целиком.
+%   r -- Range-выражения. Команда с двумя параметрами, которая должна изобразить
+%   запись с троеточкой. \sumr{1}{10} = 1 + ... + 10.
+%
+%   e -- выражение с Enumeration. Очень часто индексы перечисления должны
+%   пробегать от 1 до n, поэтому у команды 3 параметра: основа, имя индекса и
+%   имя верхней границы. \sume{x}{i}{n} → \sum_{i=1}^{n}{x_i}.
+%
+%   f -- выражение From. Тоже перечисление, но с указанным нижним индексом.
+%   Параметра, поэтому 4.
+%
+% Дополнительный суффикс m (mx, me, mf) означает команду, которая, первым
+% аргументом берёт некий макрос, в который подставляется индекс или
+% перечисляемые аргументы (будем говорить, что макрос применяется поэлементно):
+%
+%   \newcommand\spi[1]{{sp}_{#1}}\summx{a b c} → sp_a + sp_b + sp_c
+%
+% Необходимости в большем разнообразии суффиксов пока нет.
+%
+% Сами схемы могут быть в двух вариантах: простые и с декорациями (префикс d в
+% названии схемы). Схемы с декорациями принимают дополнительные параметры:
+% поэлементная декорация, декорация для простых выражения и для «больших»
+% выражений (для \sum, например, нужны большие скобки). Декорации -- это команды
+% с одним аргументом.
+%
+% Версии m команд с декорациями ожидают макроса для поэлементной обработки,
+% который принимает два аргумента: декорацию (первый) и элемент (второй
+% аргумент).
+%
+% Больше о схемах сказать нечего.
 
-% Автоматизация выставления индексов для больших операторов (\prod, etc).
+% Схемы для различных ассоциативных операторов с «большими» обозначениями (\sum,
+% \bigcup и тому подобных). Примеры использования:
+%
+%   \opscheme{prod}{\times}{\prod}
+%   \prodx{1 2 3} → 1 \times 2 \times 3
+%
+%   \newcommand\pars[1]{(#1)}
+%   \dopscheme{sum}{+}{\sum}{\identity}{\pars}{\identity}
+%   \sumx{1 2 3} → (1 + 2 + 3)
+
+% Расстановка индексов для больших операторов (\prod, etc).
 
 \newcommand\bigop[5]{\ensuremath{#1_{{#3}={#4}}^{#5}{{#2}_{#3}}}}
-\newcommand\mbigop[5]{\ensuremath{#1_{{#3}={#4}}^{#5}{#2{#3}}}}
+\newcommand\bigopm[5]{\ensuremath{#1_{{#3}={#4}}^{#5}{#2{#3}}}}
 
-% Схемы для различных ассоциативных операторов. Использование примерно такое:
-%
-% \opscheme{\product}{\prod}{\times} -- простая схема для большинства случаев.
-%
-% \dopscheme{\product}{\prod}{\times}{\Dom}{\identity}{\identity} -- схема с
-% декорациями. Последние три параметра украшают полученное выражение: элементы
-% операции, итоговое выражение без большого оператора, итоговое выражение с
-% большим оператором.
-%
-% \mopscheme{\product}{\prod}{\times} -- простая схема, генерирующая команду,
-% которая работает с макросом, а не с названием элемента.
-%
-% \dmopscheme{\product}{\prod}{\times}{\identity}{\identity} -- команда с
-% украшением. Украшать сам элемент не нужно (это делает макрос, передаваемый
-% параметром в сгенерированную команду, поэтому украшения всего два: для
-% итоговых формул.
-
+% #1 -- основа для имён команд
+% #2 -- символ операции
+% #3 -- «большой» групповой символ операции
 \newcommand\opscheme[3]{%
-  \NewDocumentCommand#1{mggg}{%
-    \IfNoValueTF{##4}
-      {\IfNoValueTF{##3}
-        {\IfNoValueTF{##2}
-          {\ensuremath{\nomapinset{#3}{##1}}}
-          {#1{{##1} {\dots} {##2}}}}
-        {#1{##1}{##2}{1}{##3}}}
-       {\bigop{#2}{##1}{##2}{##3}{##4}}}}
+  \expandafter\newcommand\csname#1i\endcsname[0]{\ensuremath{#2}}
 
-% \dots не должны попасть под украшение для элементов (пераметр 4). Поэтому
-% отдельная обработка
+  \expandafter\newcommand\csname#1x\endcsname[1]{\nomapinset{#2}{##1}}
+
+  \expandafter\newcommand\csname#1r\endcsname[2]{%
+    \nomapinset{#2}{{##1} {\dots} {##2}}}
+
+  \expandafter\newcommand\csname#1e\endcsname[3]{%
+    \csname#1f\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1f\endcsname[4]{%
+    \bigop{#3}{##1}{##2}{##3}{##4}}
+
+  \expandafter\newcommand\csname#1mx\endcsname[2]{%
+    \simpleinset{#2}{##1}{##2}}
+
+  \expandafter\newcommand\csname#1mr\endcsname[3]{%
+    \nomapinset{#2}{{##1{##2}} {\dots} {##1{##3}}}}
+
+  \expandafter\newcommand\csname#1me\endcsname[3]{%
+    \csname#1mf\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1mf\endcsname[4]{%
+    \bigopm{#3}{##1}{##2}{##3}{##4}}
+}
+
+% #1 -- основа для имён команд
+% #2 -- символ операции
+% #3 -- «большой» групповой символ операции
+% #4 -- поэлементная декорация
+% #5 -- декорация для простых формул
+% #6 -- декорация для «больших» формул
 \newcommand\dopscheme[6]{%
-  \NewDocumentCommand#1{mggg}{%
-    \IfNoValueTF{##4}
-      {\IfNoValueTF{##3}
-        {\IfNoValueTF{##2}
-          {\ensuremath{#5{\simpleinset{#3}{#4}{##1}}}}
-          {\ensuremath{#5{\nomapinset{#3}{{#4{##1}} {\dots} {#4{##2}}}}}}}
-        {#1{##1}{##2}{1}{##3}}}
-    {\ensuremath{{#6{\bigop{#2}{#4{##1}}{##2}{##3}{##4}}}}}}}
+  \expandafter\newcommand\csname#1i\endcsname[0]{\ensuremath{#2}}
+
+  \expandafter\newcommand\csname#1x\endcsname[1]{%
+    #5{\simpleinset{#2}{#4}{##1}}}
+
+  \expandafter\newcommand\csname#1r\endcsname[2]{%
+    #5{\nomapinset{#2}{{#4{##1}} {\dots} {#4{##2}}}}}
+
+  \expandafter\newcommand\csname#1e\endcsname[3]{%
+    \csname#1f\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1f\endcsname[4]{%
+    #6{\bigop{#3}{#4{##1}}{##2}{##3}{##4}}}
+
+  \expandafter\newcommand\csname#1mr\endcsname[3]{%
+    \nomapinset{#2}{{##1{##2}} {\dots} {##1{##3}}}}
+
+  \expandafter\newcommand\csname#1me\endcsname[3]{%
+    \csname#1mf\endcsname{##1}{##2}{1}{##3}}
+
+  \makeatletter
+
+  \expandafter\newcommand\csname#1mx\endcsname[2]{%
+    \begingroup
+    \newcommand\m@deco[1]{#1}
+    \simpleinset{#2}{\m@deco}{##2}
+    \endgroup}
+
+  \expandafter\newcommand\csname#1mf\endcsname[4]{%
+    \begingroup
+    \newcommand\m@deco[1]{##1{#4}{#1}}
+    \bigopm{#3}{\m@deco}{##2}{##3}{##4}
+    \endgroup}
+
+  \makeatother
+}
+
+% % \dots не должны попасть под украшение для элементов (пераметр 4). Поэтому
+% % отдельная обработка
+% \newcommand\dopscheme[6]{%
+%   \NewDocumentCommand#1{mggg}{%
+%     \IfNoValueTF{##4}
+%       {\IfNoValueTF{##3}
+%         {\IfNoValueTF{##2}
+%           {\ensuremath{#5{\simpleinset{#3}{#4}{##1}}}}
+%           {\ensuremath{#5{\nomapinset{#3}{{#4{##1}} {\dots} {#4{##2}}}}}}}
+%         {#1{##1}{##2}{1}{##3}}}
+%     {\ensuremath{{#6{\bigop{#2}{#4{##1}}{##2}{##3}{##4}}}}}}}
 
 \newcommand\mopscheme[3]{%
   \NewDocumentCommand#1{mmgg}{%
@@ -323,19 +414,21 @@
 \newcommand\KStar[1]{\kstar{\Dom{#1}}}
 \newcommand\KPlus[1]{\kplus{\Dom{#1}}}
 
-\dopscheme{\DProd}{\prod}{\times}{\DNm}{\identity}{\identity}
-\dopscheme{\DSum}{\sum}{+}{\DNm}{\dpars}{\DPars}
+\dopscheme{DProd}{\times}{\prod}{\DNm}{\identity}{\identity}
+\dopscheme{DSum}{\sum}{+}{\DNm}{\dpars}{\DPars}
 
 % Произведения доменов
 
-\opscheme{\product}{\prod}{\times}
-\mopscheme{\mproduct}{\prod}{\times}
+% \opscheme{\product}{\prod}{\times}
+% \mopscheme{\mproduct}{\prod}{\times}
+
+\opscheme{prod}{\times}{\prod}
 
 \newcommand\prj[2]{\ensuremath{\pi^{#1}_{\enum{#2}}}}
 
 % Суммы доменов
 
-\dopscheme{\oneof}{\sum}{+}{\identity}{\pars}{\Pars}
+\dopscheme{oneof}{\sum}{+}{\identity}{\pars}{\Pars}
 \dmopscheme{\moneof}{\sum}{+}{\pars}{\Pars}
 
 \newcommand\inj[2]{\ensuremath{\epsilon^{#1}_{\enum{#2}}}}
