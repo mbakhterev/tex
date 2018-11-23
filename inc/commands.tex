@@ -181,26 +181,22 @@
     #6{\bigop{#3}{#4{##1}}{##2}{##3}{##4}}}
 
   \expandafter\newcommand\csname#1mr\endcsname[3]{%
-    \nomapinset{#2}{{##1{##2}} {\dots} {##1{##3}}}}
+    #5{\nomapinset{#2}{{##1{#4}{##2}} {\dots} {##1{#4}{##3}}}}}
 
   \expandafter\newcommand\csname#1me\endcsname[3]{%
     \csname#1mf\endcsname{##1}{##2}{1}{##3}}
 
-  \makeatletter
-
   \expandafter\newcommand\csname#1mx\endcsname[2]{%
-    \begingroup
-    \newcommand\m@deco[1]{#1}
-    \simpleinset{#2}{\m@deco}{##2}
+    \begingroup%
+    \newcommand\mdeco[1]{##1{#4}{####1}}%
+    #5{\simpleinset{#2}{\mdeco}{##2}}%
     \endgroup}
 
   \expandafter\newcommand\csname#1mf\endcsname[4]{%
-    \begingroup
-    \newcommand\m@deco[1]{##1{#4}{#1}}
-    \bigopm{#3}{\m@deco}{##2}{##3}{##4}
+    \begingroup%
+    \newcommand\mdeco[1]{##1{#4}{####1}}%
+    #6{\bigopm{#3}{\mdeco}{##2}{##3}{##4}}%
     \endgroup}
-
-  \makeatother
 }
 
 % % \dots не должны попасть под украшение для элементов (пераметр 4). Поэтому
@@ -415,7 +411,7 @@
 \newcommand\KPlus[1]{\kplus{\Dom{#1}}}
 
 \dopscheme{DProd}{\times}{\prod}{\DNm}{\identity}{\identity}
-\dopscheme{DSum}{\sum}{+}{\DNm}{\dpars}{\DPars}
+\dopscheme{DSum}{+}{\sum}{\DNm}{\dpars}{\DPars}
 
 % Произведения доменов
 
