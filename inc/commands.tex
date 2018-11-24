@@ -7,7 +7,8 @@
 \newcommand\grk[1]{\foreignlanguage{greek}{#1}}
 \newcommand\eng[1]{\foreignlanguage{english}{#1}}
 
-\newcommand\range[2]{\enum{{#1} {\ldots} {#2}}}
+% \newcommand\range[2]{\enum{{#1} {\ldots} {#2}}}
+\newcommand\range[2]{\enumr{#1}{#2}}
 
 \newif\ifclassic
 \classicfalse
@@ -199,35 +200,9 @@
     \endgroup}
 }
 
-% % \dots не должны попасть под украшение для элементов (пераметр 4). Поэтому
-% % отдельная обработка
-% \newcommand\dopscheme[6]{%
-%   \NewDocumentCommand#1{mggg}{%
-%     \IfNoValueTF{##4}
-%       {\IfNoValueTF{##3}
-%         {\IfNoValueTF{##2}
-%           {\ensuremath{#5{\simpleinset{#3}{#4}{##1}}}}
-%           {\ensuremath{#5{\nomapinset{#3}{{#4{##1}} {\dots} {#4{##2}}}}}}}
-%         {#1{##1}{##2}{1}{##3}}}
-%     {\ensuremath{{#6{\bigop{#2}{#4{##1}}{##2}{##3}{##4}}}}}}}
+% Конец схем операторов.
 
-\newcommand\mopscheme[3]{%
-  \NewDocumentCommand#1{mmgg}{%
-    \IfNoValueTF{##4}
-      {\IfNoValueTF{##3}
-        {\simpleinset{#3}{##1}{##2}}
-        {#1{##1}{##2}{1}{##3}}}
-    {\mbigop{#2}{##1}{##2}{##3}{##4}}}}
-
-\newcommand\dmopscheme[5]{%
-  \NewDocumentCommand#1{mmgg}{%
-    \IfNoValueTF{##4}
-      {\IfNoValueTF{##3}
-        \ensuremath{{#4{\simpleinset{#3}{##1}{##2}}}}
-        {#1{##1}{##2}{1}{##3}}}
-    {\ensuremath{#5{\mbigop{#2}{##1}{##2}{##3}{##4}}}}}}
-
-% Схема с индексами
+% 2. Схема с индексами. На случай, когда лень писать полное определение.
 
 \newcommand\idxscheme[2]{\newcommand#1[1]{\ensuremath{{#2}_{##1}}}}
 
@@ -237,50 +212,122 @@
 %
 % здесь бессмысленно.
 
-% Схемы перечислений: множества, последовательности. Используются примерно так:
+% Конец схемы с индексами
+
+% 3. Схемы перечислений: множества, последовательности. Используются примерно
+% так:
 %
-%   \denumscheme{\easet}{,}{\atom}{\set}
+%   \denumscheme{easet}{,}{\atom}{\set}
 %
 % 3-й параметра -- поэлементный декоратор; 4-й -- декоратор всего выражения.
+%
+% Не понятно, как здесь придать смысл i-комане, поэтому её в схеме нет.
+% Остальное похоже на схему для операторов.
 
+% Расстановка индексов 
 \newcommand\Enum[4]{\ensuremath{{#1}_{{#2}={#3}}^{#4}}}
 \newcommand\mEnum[4]{\ensuremath{{#1{#2}}_{{#2}={#3}}^{#4}}}
 
+% #1 -- основа для команд
+% #2 -- разделитель
 \newcommand\enumscheme[2]{%
-  \NewDocumentCommand#1{mggg}{%
-    \IfNoValueTF{##4}
-      {\IfNoValueTF{##3}
-        {\IfNoValueTF{##2}
-          {\nomapinset{#2}{##1}}
-          {#1{{##1} {\dots} {##2}}}}
-        {#1{##1}{##2}{1}{##3}}}
-      {\Enum{##1}{##2}{##3}{##4}}}}
+  \expandafter\newcommand\csname#1x\endcsname[1]{%
+    \nomapinset{#2}{##1}}
 
-\newcommand\denumscheme[4]{%
-  \NewDocumentCommand#1{mggg}{%
-    \IfNoValueTF{##4}
-      {\IfNoValueTF{##3}
-        {\IfNoValueTF{##2}
-          {\ensuremath{#4{\simpleinset{#2}{#3}{##1}}}}
-          {\ensuremath{#4{\nomapinset{#2}{{#3{##1}} {\ldots} {#3{##2}}}}}}}
-        {#1{##1}{##2}{1}{##3}}}
-    {\ensuremath{#4{\Enum{##1}{##2}{##3}{##4}}}}}}
+  \expandafter\newcommand\csname#1r\endcsname[2]{%
+    \nomapinset{#2}{{##1} {\ldots} {##2}}}
+ 
+  \expandafter\newcommand\csname#1e\endcsname[3]{%
+    \csname#1f\endcsname{##1}{##2}{1}{##3}}
 
-\newcommand\menumscheme[2]{%
-  \NewDocumentCommand#1{mmgg}{%
-    \IfNoValueTF{##4}
-      {\IfNoValueTF{##3}
-        {\simpleinset{#2}{##1}{##2}}
-        {#1{##1}{##2}{1}{##3}}}
-      {\mEnum{##1}{##2}{##3}{##4}}}}
+  \expandafter\newcommand\csname#1f\endcsname[4]{%
+    \Enum{##1}{##2}{##3}{##4}}
 
-\newcommand\dmenumscheme[3]{%
-  \NewDocumentCommand#1{mmgg}{%
-    \IfNoValueTF{##4}
-      {\IfNoValueTF{##3}
-        {\ensuremath{#3{\simpleinset{#2}{##1}{##2}}}}
-        {#1{##1}{##2}{1}{##3}}}
-    {\ensuremath{#3{\mEnum{##1}{##2}{##3}{##4}}}}}}
+  \expandafter\newcommand\csname#1mx\endcsname[2]{%
+    \simpleinset{#2}{##1}{##2}}
+
+  \expandafter\newcommand\csname#1mr\endcsname[3]{%
+    \nomapinset{#2}{{##1{##2}} {\ldots} {##1{##3}}}}
+
+  \expandafter\newcommand\csname#1me\endcsname[3]{%
+    \csname#1mf\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1mf\endcsname[4]{%
+    \mEnum{##1}{##2}{##3}{##4}}
+}
+
+% #1 -- основа для имён команд
+% #2 -- разделитель
+% #3 -- поэлементная декорация
+% #4 -- декорация для простых перечислений
+% #5 -- декорация для перечислений с индексами
+\newcommand\denumscheme[5]{%
+  \expandafter\newcommand\csname#1x\endcsname[1]{%
+    #4{\simpleinset{#2}{#3}{##1}}}
+
+  \expandafter\newcommand\csname#1r\endcsname[2]{%
+    #4{\nomapinset{#2}{{#3{##1}} {\ldots} {#3{##2}}}}}
+ 
+  \expandafter\newcommand\csname#1e\endcsname[3]{%
+    \csname#1f\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1f\endcsname[4]{%
+    #5{\Enum{#3{##1}}{##2}{##3}{##4}}}
+
+  \expandafter\newcommand\csname#1mx\endcsname[2]{%
+    \begingroup%
+    \newcommand\mdeco[1]{##1{#3}{####1}}%
+    #4{\simpleinset{#2}{\mdeco}{##2}}%
+    \endgroup}
+
+  \expandafter\newcommand\csname#1mr\endcsname[3]{%
+    #4{\nomapinset{#2}{{##1{#3}{##2}} {\ldots} {##1{#3}{##3}}}}}
+
+  \expandafter\newcommand\csname#1me\endcsname[3]{%
+    \csname#1mf\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1mf\endcsname[4]{%
+    \begingroup%
+    \newcommand\mdeco[1]{##1{#3}{####1}}
+    \mEnum{\mdeco}{##2}{##3}{##4}%
+    \endgroup}
+}
+
+% \newcommand\enumscheme[2]{%
+%   \NewDocumentCommand#1{mggg}{%
+%     \IfNoValueTF{##4}
+%       {\IfNoValueTF{##3}
+%         {\IfNoValueTF{##2}
+%           {\nomapinset{#2}{##1}}
+%           {#1{{##1} {\dots} {##2}}}}
+%         {#1{##1}{##2}{1}{##3}}}
+%       {\Enum{##1}{##2}{##3}{##4}}}}
+
+% \newcommand\denumscheme[4]{%
+%   \NewDocumentCommand#1{mggg}{%
+%     \IfNoValueTF{##4}
+%       {\IfNoValueTF{##3}
+%         {\IfNoValueTF{##2}
+%           {\ensuremath{#4{\simpleinset{#2}{#3}{##1}}}}
+%           {\ensuremath{#4{\nomapinset{#2}{{#3{##1}} {\ldots} {#3{##2}}}}}}}
+%         {#1{##1}{##2}{1}{##3}}}
+%     {\ensuremath{#4{\Enum{##1}{##2}{##3}{##4}}}}}}
+% 
+% \newcommand\menumscheme[2]{%
+%   \NewDocumentCommand#1{mmgg}{%
+%     \IfNoValueTF{##4}
+%       {\IfNoValueTF{##3}
+%         {\simpleinset{#2}{##1}{##2}}
+%         {#1{##1}{##2}{1}{##3}}}
+%       {\mEnum{##1}{##2}{##3}{##4}}}}
+% 
+% \newcommand\dmenumscheme[3]{%
+%   \NewDocumentCommand#1{mmgg}{%
+%     \IfNoValueTF{##4}
+%       {\IfNoValueTF{##3}
+%         {\ensuremath{#3{\simpleinset{#2}{##1}{##2}}}}
+%         {#1{##1}{##2}{1}{##3}}}
+%     {\ensuremath{#3{\mEnum{##1}{##2}{##3}{##4}}}}}}
 
 % Определение последовательности. Штука либо показывается заданным способом 2
 % аргумент, либо показывается, как аппликация функции к указанному аргументу.
@@ -415,28 +462,24 @@
 
 % Произведения доменов
 
-% \opscheme{\product}{\prod}{\times}
-% \mopscheme{\mproduct}{\prod}{\times}
-
 \opscheme{prod}{\times}{\prod}
 
-\newcommand\prj[2]{\ensuremath{\pi^{#1}_{\enum{#2}}}}
+\newcommand\prj[2]{\ensuremath{\pi^{#1}_{\enumx{#2}}}}
 
 % Суммы доменов
 
 \dopscheme{oneof}{\sum}{+}{\identity}{\pars}{\Pars}
-\dmopscheme{\moneof}{\sum}{+}{\pars}{\Pars}
 
-\newcommand\inj[2]{\ensuremath{\epsilon^{#1}_{\enum{#2}}}}
+\newcommand\inj[2]{\ensuremath{\epsilon^{#1}_{\enumx{#2}}}}
 
 % Последовательности и множества
 
-\enumscheme{\cenum}{,}
+\enumscheme{cenum}{,}
 
 \ifclassic
-  \enumscheme{\enum}{,}
+  \enumscheme{enum}{,}
 \else
-  \enumscheme{\enum}{\ }
+  \enumscheme{enum}{\ }
 \fi
 
 \NewDocumentCommand\seqcore{mggg}{%
@@ -453,8 +496,8 @@
       {\mseqcore{#1}{#2}{1}{#3}}
       {\ensuremath{{#1{#2}}_{{#2}={#3}}^{#4}}}}}
 
-\newcommand\tuple[1]{\ensuremath{[\enum{#1}]}}
-\newcommand\Tuple[1]{\ensuremath{\left[\enum{#1}\right]}}
+\newcommand\tuple[1]{\ensuremath{[\enumx{#1}]}}
+\newcommand\Tuple[1]{\ensuremath{\left[\enumx{#1}\right]}}
 
 
 \NewDocumentCommand\tailinj{mmg}{%
@@ -777,8 +820,8 @@
 \newcommand\In[1]{#1}
 \newcommand\Wr[1]{#1}
 
-% \newcommand\lx[1]{\grk{l}-#1}
-\newcommand\lx[1]{\ensuremath{\lambda}-#1}
+\newcommand\lx[1]{\grk{l}-#1}
+% \newcommand\lx[1]{\ensuremath{\lambda}-#1}
 \newcommand\px[1]{\grk{p}-#1}
 
 % \newcommand\im[1]{\capp{\mathrm{im} {#1}}}

@@ -18,4 +18,17 @@
   moredelim=**[is][\color{red}]{@}{@},
   moredelim=**[is][\color{blue}]{`}{`}}
 
+\lstdefinestyle{rthree}{
+  literate={L}{\texttt{\textcolor{gray}{\grk{l}}}}1,
+  keywordstyle={\color{gray}},
+  keywords={ext,run,bind,cell,WRef,WTree,Flow,Int,tree,rec,or,span},
+  otherkeywords={->,!}
+}
+
+\lstdefinestyle{rfour}{
+  literate={L}{\texttt{\textcolor{gray}{\grk{l}}}}1,
+  keywordstyle={\color{gray}},
+  keywords={run,pin,rec,tree,enum,span,define,if}
+}
+
 \newenvironment{clist}{\begin{center}\begin{mcellbox}}{\end{mcellbox}\end{center}}
