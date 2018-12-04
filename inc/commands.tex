@@ -553,6 +553,8 @@
     {#1}
   \else\expandafter\ifx\get@first#1\relax\satom
     {#1}
+  \else\expandafter\ifx\get@first#1\relax\atom
+    {#1}
   \else
     \text{\texttt{#1}}
  \fi\fi\fi\fi}
@@ -827,3 +829,5 @@
 % \newcommand\im[1]{\capp{\mathrm{im} {#1}}}
 
 \cfnscheme{\im}{\mathrm{im}}
+
+\newcommand\mr[1]{\ensuremath{\mathbf{R_{#1}}}}

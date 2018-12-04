@@ -1,5 +1,9 @@
 \usepackage{listings}
 \usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{adjustbox}
+
+\usepackage[normalem]{ulem} 
 
 \lstset{
   basicstyle=\ttfamily,
@@ -19,6 +23,7 @@
   moredelim=**[is][\color{blue}]{`}{`}}
 
 \lstdefinestyle{rthree}{
+  moredelim=**[is][\color{red}]{`}{`},
   literate={L}{\texttt{\textcolor{gray}{\grk{l}}}}1,
   keywordstyle={\color{gray}},
   keywords={ext,run,bind,cell,WRef,WTree,Flow,Int,tree,rec,or,span},
@@ -32,3 +37,4 @@
 }
 
 \newenvironment{clist}{\begin{center}\begin{mcellbox}}{\end{mcellbox}\end{center}}
+\newenvironment{alist}{\begin{adjustbox}{width=\textwidth}}{\end{adjustbox}}
