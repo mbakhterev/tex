@@ -31,10 +31,14 @@
 }
 
 \lstdefinestyle{rfour}{
+  moredelim=**[is][\color{blue}]{@}{@},
+  moredelim=**[is][\color{red}]{`}{`},
   literate={L}{\texttt{\textcolor{gray}{\grk{l}}}}1,
   keywordstyle={\color{gray}},
-  keywords={run,pin,rec,tree,enum,span,define,if}
+  keywords={run,pin,rec,tree,enum,span,define,if,get}
 }
 
 \newenvironment{clist}{\begin{center}\begin{mcellbox}}{\end{mcellbox}\end{center}}
-\newenvironment{alist}{\begin{adjustbox}{width=\textwidth}}{\end{adjustbox}}
+
+\newenvironment{alist}{\begin{center}\begin{adjustbox}{width=\linewidth}\begin{mcellbox}}%
+                      {\end{mcellbox}\end{adjustbox}\end{center}}
