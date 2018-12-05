@@ -329,6 +329,13 @@
 %         {#1{##1}{##2}{1}{##3}}}
 %     {\ensuremath{#3{\mEnum{##1}{##2}{##3}{##4}}}}}}
 
+% 3. Схемы для ключевых слов и kw-выражений с ними
+
+\newcommand\keywordscheme[2]{%
+  \expandafter\newcommand\csname#1i\endcsname[0]{#2}
+  \expandafter\newcommand\csname#1x\endcsname[1]{{#2}-{##1}}
+}
+
 % Определение последовательности. Штука либо показывается заданным способом 2
 % аргумент, либо показывается, как аппликация функции к указанному аргументу.
 
@@ -771,6 +778,8 @@
 \newcommand\nseq[2]{\iseq{#1}{#2}{\nats}}
 \newcommand\bseq[4]{\iseq{\bind{#1_{#3}}{#2_{#3}}}{#3}{\Nless{#4}}}
 
+\denumscheme{seq}{\ }{\identity}{\brkt}{\Brkt}
+
 \newcommand\R{\mathbf{R}}
 
 \newcommand\tnothing{}
@@ -822,9 +831,11 @@
 \newcommand\In[1]{#1}
 \newcommand\Wr[1]{#1}
 
-\newcommand\lx[1]{\grk{l}-#1}
+% \newcommand\lx[1]{\grk{l}-#1}
 % \newcommand\lx[1]{\ensuremath{\lambda}-#1}
-\newcommand\px[1]{\grk{p}-#1}
+% \newcommand\px[1]{\grk{p}-#1}
+
+\keywordscheme{l}{\grk{l}}
 
 % \newcommand\im[1]{\capp{\mathrm{im} {#1}}}
 
