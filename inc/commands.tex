@@ -7,7 +7,6 @@
 \newcommand\grk[1]{\foreignlanguage{greek}{#1}}
 \newcommand\eng[1]{\foreignlanguage{english}{#1}}
 
-% \newcommand\range[2]{\enum{{#1} {\ldots} {#2}}}
 \newcommand\range[2]{\enumr{#1}{#2}}
 
 \newif\ifclassic
@@ -357,6 +356,8 @@
 \newcommand\app[2]{\pars{{#1}\ \appargs{#2}}}
 \newcommand\dapp[3]{\ensuremath{#3{{#1}\ \appargs{#2}}}}
 
+\newcommand\comp[1]{\nomapinset{\circ}{#1}}
+
 \newcommand\cfnscheme[2]{%
   \NewDocumentCommand#1{g}{%
     \IfNoValueTF{##1}
@@ -575,10 +576,12 @@
   \ensuremath{\insetmap{#1}}%
   \endgroup}
 
-\newcommand\sexp[1]{\ensuremath{\text{\texttt{(}}\baresexp{#1}\text{\texttt{)}}}}
+% \newcommand\satom[1]{\ensuremath{\text{\texttt{#1}}}}
+% \newcommand\sexp[1]{\ensuremath{\text{\texttt{(}}\baresexp{#1}\text{\texttt{)}}}}
 
+\newcommand\sexp[1]{\spars{\baresexp{#1}}}
 \newcommand\atom[1]{\ensuremath{\text{\texttt{#1}}}}
-\newcommand\satom[1]{\ensuremath{\text{\texttt{#1}}}}
+\newcommand\lexp[2]{\sexp{\grk{l} #1 #2}}
 
 \newcommand\fn[1]{\app{#1}}
 
