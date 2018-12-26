@@ -30,15 +30,32 @@
   otherkeywords={->,!}
 }
 
+% \lstdefinestyle{rfour}{
+%   moredelim=**[is][\color{blue}]{@}{@},
+%   moredelim=**[is][\color{red}]{`}{`},
+%   literate={L}{\texttt{\textcolor{gray}{\grk{l}}}}1
+%            {->}{{\textcolor{gray}{$\to$}}}2
+%            {T}{\(\mathtt{\times}\)}1
+%            {A}{\(\mathtt{\wedge}\)}1
+%            {C}{\(\mathtt{\circ}\)}1,
+%   keywordstyle={\color{gray}},
+%   keywords={either,run,pin,rec,enum,span,define,if,get,path,let,flow,zip,def,claim,type}
+% }
+
 \lstdefinestyle{rfour}{
   moredelim=**[is][\color{blue}]{@}{@},
   moredelim=**[is][\color{red}]{`}{`},
-  literate={L}{\texttt{\textcolor{gray}{\grk{l}}}}1
+  literate={L}{\texttt{\grk{l}}}1
+           {->}{$\to$}2
            {T}{\(\mathtt{\times}\)}1
-           {A}{\(\mathtt{\wedge}\)}1
+%           {A}{\(\mathtt{\wedge}\)}1
            {C}{\(\mathtt{\circ}\)}1,
   keywordstyle={\color{gray}},
-  keywords={run,pin,rec,enum,span,define,if,get,path,let,flow,zip,def}
+  keywords={run,pin,rec,enum,span,get,path,flow,zip}}
+
+\lstdefinestyle{hask}{
+  language=Haskell,
+  keywordstyle={\color{gray}}
 }
 
 \newenvironment{clist}{\begin{center}\begin{mcellbox}}{\end{mcellbox}\end{center}}
