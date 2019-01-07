@@ -2,6 +2,7 @@
 \usepackage{makecell}
 \usepackage{xcolor}
 \usepackage{adjustbox}
+\usepackage{stmaryrd}
 
 \usepackage[normalem]{ulem} 
 
@@ -45,9 +46,9 @@
 \lstdefinestyle{rfour}{
   moredelim=**[is][\color{blue}]{@}{@},
   moredelim=**[is][\color{red}]{`}{`},
-  literate={L}{\texttt{\grk{l}}}1
+  literate={\\}{\texttt{\grk{l}}}1
            {P}{\texttt{\grk{P}}}1
-           {->}{$\to$}2
+           {^}{$\shortrightarrow$}1
            {T}{\(\mathtt{\times}\)}1
 %           {A}{\(\mathtt{\wedge}\)}1
            {C}{\(\mathtt{\circ}\)}1,
