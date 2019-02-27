@@ -507,7 +507,6 @@
 \newcommand\tuple[1]{\ensuremath{[\enumx{#1}]}}
 \newcommand\Tuple[1]{\ensuremath{\left[\enumx{#1}\right]}}
 
-
 \NewDocumentCommand\tailinj{mmg}{%
   \IfNoValueTF{#3}
     {\ensuremath{#1\rightarrowtail#2}}
@@ -686,7 +685,7 @@
 \newcommand{\card}[1]{\left|#1\right|}
 
 \newcommand{\forevery}[1]{\forall{#1}\ldotp\ }
-\newcommand{\thereis}[1]{\exists{#1}\ldotp\ }
+\newcommand{\thereis}[1]{\ensuremath{\exists{#1}\ldotp\ }}
 % \newcommand{\lam}[1]{\text{\textgreek{λ}}#1\ldotp}
 
 \newcommand{\coll}[2]{\left\{{{#1} \mid {#2}}\right\}}
