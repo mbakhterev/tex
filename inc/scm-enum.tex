@@ -1,0 +1,78 @@
+% 3. Схемы перечислений: множества, последовательности. Используются примерно
+% так:
+%
+%   \denumscheme{easet}{,}{\atom}{\set}
+%
+% 3-й параметра -- поэлементный декоратор; 4-й -- декоратор всего выражения.
+%
+% Не понятно, как здесь придать смысл i-комане, поэтому её в схеме нет.
+% Остальное похоже на схему для операторов.
+
+% Расстановка индексов 
+\newcommand\Enum[4]{\ensuremath{{#1}_{{#2}={#3}}^{#4}}}
+\newcommand\mEnum[4]{\ensuremath{{#1{#2}}_{{#2}={#3}}^{#4}}}
+
+% #1 -- основа для команд
+% #2 -- разделитель
+\newcommand\enumscheme[2]{%
+  \expandafter\newcommand\csname#1x\endcsname[1]{%
+    \nomapinset{#2}{##1}}
+
+  \expandafter\newcommand\csname#1r\endcsname[2]{%
+    \nomapinset{#2}{{##1} {\ldots} {##2}}}
+ 
+  \expandafter\newcommand\csname#1e\endcsname[3]{%
+    \csname#1f\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1f\endcsname[4]{%
+    \Enum{##1}{##2}{##3}{##4}}
+
+  \expandafter\newcommand\csname#1mx\endcsname[2]{%
+    \simpleinset{#2}{##1}{##2}}
+
+  \expandafter\newcommand\csname#1mr\endcsname[3]{%
+    \nomapinset{#2}{{##1{##2}} {\ldots} {##1{##3}}}}
+
+  \expandafter\newcommand\csname#1me\endcsname[3]{%
+    \csname#1mf\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1mf\endcsname[4]{%
+    \mEnum{##1}{##2}{##3}{##4}}
+}
+
+% #1 -- основа для имён команд
+% #2 -- разделитель
+% #3 -- поэлементная декорация
+% #4 -- декорация для простых перечислений
+% #5 -- декорация для перечислений с индексами
+\newcommand\denumscheme[5]{%
+  \expandafter\newcommand\csname#1x\endcsname[1]{%
+    #4{\simpleinset{#2}{#3}{##1}}}
+
+  \expandafter\newcommand\csname#1r\endcsname[2]{%
+    #4{\nomapinset{#2}{{#3{##1}} {\ldots} {#3{##2}}}}}
+ 
+  \expandafter\newcommand\csname#1e\endcsname[3]{%
+    \csname#1f\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1f\endcsname[4]{%
+    #5{\Enum{#3{##1}}{##2}{##3}{##4}}}
+
+  \expandafter\newcommand\csname#1mx\endcsname[2]{%
+    \begingroup%
+    \newcommand\mdeco[1]{##1{#3}{####1}}%
+    #4{\simpleinset{#2}{\mdeco}{##2}}%
+    \endgroup}
+
+  \expandafter\newcommand\csname#1mr\endcsname[3]{%
+    #4{\nomapinset{#2}{{##1{#3}{##2}} {\ldots} {##1{#3}{##3}}}}}
+
+  \expandafter\newcommand\csname#1me\endcsname[3]{%
+    \csname#1mf\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1mf\endcsname[4]{%
+    \begingroup%
+    \newcommand\mdeco[1]{##1{#3}{####1}}
+    \mEnum{\mdeco}{##2}{##3}{##4}%
+    \endgroup}
+}

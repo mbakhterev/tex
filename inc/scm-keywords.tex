@@ -1,0 +1,6 @@
+% 4. Схемы для ключевых слов и kw-выражений с ними
+
+\newcommand\keywordscheme[2]{%
+  \expandafter\newcommand\csname#1i\endcsname[0]{#2}
+  \expandafter\newcommand\csname#1x\endcsname[1]{{#2}-{##1}}
+}

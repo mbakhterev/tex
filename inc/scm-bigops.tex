@@ -1,0 +1,87 @@
+% Схемы для различных ассоциативных операторов с «большими» обозначениями (\sum,
+% \bigcup и тому подобных). Примеры использования:
+%
+%   \opscheme{prod}{\times}{\prod}
+%   \prodx{1 2 3} → 1 \times 2 \times 3
+%
+%   \newcommand\pars[1]{(#1)}
+%   \dopscheme{sum}{+}{\sum}{\identity}{\pars}{\identity}
+%   \sumx{1 2 3} → (1 + 2 + 3)
+
+% Расстановка индексов для больших операторов (\prod, etc).
+
+\newcommand\bigop[5]{\ensuremath{#1_{{#3}={#4}}^{#5}{{#2}_{#3}}}}
+\newcommand\bigopm[5]{\ensuremath{#1_{{#3}={#4}}^{#5}{#2{#3}}}}
+
+% #1 -- основа для имён команд
+% #2 -- символ операции
+% #3 -- «большой» групповой символ операции
+\newcommand\opscheme[3]{%
+  \expandafter\newcommand\csname#1i\endcsname[0]{\ensuremath{#2}}
+
+  \expandafter\newcommand\csname#1x\endcsname[1]{\nomapinset{#2}{##1}}
+
+  \expandafter\newcommand\csname#1r\endcsname[2]{%
+    \nomapinset{#2}{{##1} {\dots} {##2}}}
+
+  \expandafter\newcommand\csname#1e\endcsname[3]{%
+    \csname#1f\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1f\endcsname[4]{%
+    \bigop{#3}{##1}{##2}{##3}{##4}}
+
+  \expandafter\newcommand\csname#1mx\endcsname[2]{%
+    \simpleinset{#2}{##1}{##2}}
+
+  \expandafter\newcommand\csname#1mr\endcsname[3]{%
+    \nomapinset{#2}{{##1{##2}} {\dots} {##1{##3}}}}
+
+  \expandafter\newcommand\csname#1me\endcsname[3]{%
+    \csname#1mf\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1mf\endcsname[4]{%
+    \bigopm{#3}{##1}{##2}{##3}{##4}}
+}
+
+% #1 -- основа для имён команд
+% #2 -- символ операции
+% #3 -- «большой» групповой символ операции
+% #4 -- поэлементная декорация
+% #5 -- декорация для простых формул
+% #6 -- декорация для «больших» формул
+\newcommand\dopscheme[6]{%
+  \expandafter\newcommand\csname#1i\endcsname[0]{\ensuremath{#2}}
+
+  \expandafter\newcommand\csname#1x\endcsname[1]{%
+    #5{\simpleinset{#2}{#4}{##1}}}
+
+  \expandafter\newcommand\csname#1r\endcsname[2]{%
+    #5{\nomapinset{#2}{{#4{##1}} {\dots} {#4{##2}}}}}
+
+  \expandafter\newcommand\csname#1e\endcsname[3]{%
+    \csname#1f\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1f\endcsname[4]{%
+    #6{\bigop{#3}{#4{##1}}{##2}{##3}{##4}}}
+
+  \expandafter\newcommand\csname#1mr\endcsname[3]{%
+    #5{\nomapinset{#2}{{##1{#4}{##2}} {\dots} {##1{#4}{##3}}}}}
+
+  \expandafter\newcommand\csname#1me\endcsname[3]{%
+    \csname#1mf\endcsname{##1}{##2}{1}{##3}}
+
+  \expandafter\newcommand\csname#1mx\endcsname[2]{%
+    \begingroup%
+    \newcommand\mdeco[1]{##1{#4}{####1}}%
+    #5{\simpleinset{#2}{\mdeco}{##2}}%
+    \endgroup}
+
+  \expandafter\newcommand\csname#1mf\endcsname[4]{%
+    \begingroup%
+    \newcommand\mdeco[1]{##1{#4}{####1}}%
+    #6{\bigopm{#3}{\mdeco}{##2}{##3}{##4}}%
+    \endgroup}
+}
+
+% Конец схем операторов.
+

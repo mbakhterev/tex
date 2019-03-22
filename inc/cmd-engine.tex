@@ -1,0 +1,48 @@
+% ДВИЖОК ПОДСТАНОВКИ. Этот набор макросов нужен для вставки различных
+% конструкций между и вокруг элементами списка атомов (кажется, в терминологии
+% TeX они называются токенами), разделённых пробелами. Например:
+%
+%   \simpleinset{\times}{\identity}{a bc de g}
+%
+% должно раскрываться в: \ensuremath{a \times bc \times de \times g}
+
+\makeatletter
+
+\def\im@end{\relax}
+\def\insetmap#1{\im@loop#1 \im@end\relax}
+
+% Здесь \begingroup и \endgroup использованы для ограничения области видимости
+% определения \im@next
+
+\def\im@loop#1 #2\relax{%
+  \begingroup
+  \ifx \im@end#2
+    \def\im@next{\endgroup\mapitem{#1}\relax}
+  \else%
+    \def\im@next{\endgroup\mapitem{#1}\relax\expandafter\inset\im@loop#2\relax}%
+  \fi
+  \im@next
+}
+
+\def\headsplitmap#1{\hs@split#1 \im@end\relax}
+
+\def\hs@split#1 #2\relax{%
+  \ifx \im@end#2%
+    \maphead{#1}{\pretail\posttail}%
+  \else
+    \maphead{#1}{\pretail\insetmap{#2}\posttail}}
+
+\def\get@first#1#2\relax{#1}
+
+\makeatother
+
+\newcommand\simpleinset[3]{%
+  \begingroup%
+  \def\inset{#1}%
+  \def\mapitem{#2}%
+  \ensuremath{\insetmap{#3}}%
+  \endgroup}
+
+\newcommand\nomapinset[2]{\simpleinset{#1}{\identity}{#2}}
+
+% ДВИЖОК ПОДСТАНОВКИ. КОНЕЦ
