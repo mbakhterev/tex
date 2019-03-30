@@ -8,4 +8,5 @@ tex-common := \
 	scm-bigops.tex \
 	scm-indexes.tex \
 	scm-enum.tex \
-	scm-keywords.tex
+	scm-keywords.tex \
+	cmd-domains.tex

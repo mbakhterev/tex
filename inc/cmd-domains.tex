@@ -1,0 +1,69 @@
+% Домены
+
+\makeatletter
+
+\newcommand\domitem[1]{%
+  \ifx\relax#1\relax
+    {}
+  \else\expandafter\ifx\get@first#1\relax\esc
+    {#1}
+  \else\expandafter\ifx\get@first#1\relax\Dom
+    {#1}
+  \else\expandafter\ifx\get@first#1\relax\DNm
+    {#1}
+  \else\expandafter\ifx\get@first#1\relax\KStar
+    {#1}
+  \else\expandafter\ifx\get@first#1\relax\KPlus
+    {#1}
+  \else\expandafter\ifx\get@first#1\relax\DProd
+    {#1}
+  \else\expandafter\ifx\get@first#1\relax\DSum
+    {#1}
+  \else\expandafter\ifx\get@first#1\relax\DSet
+    {#1}
+  \else
+    \mathrm{#1}
+  \fi\fi\fi\fi\fi\fi\fi\fi\fi}
+
+\makeatother
+
+% Стиль имён доменов
+
+\newcommand\DNm[1]{\ensuremath{\domitem{#1}}}
+
+\newcommand\Dom[1]{\ensuremath{{#1}_\bot}}
+
+\newcommand\DBot[1]{\ensuremath{\bot_{\DNm{#1}}}}
+
+\newcommand\DABot[1]{\ensuremath{\bot_{\atom{#1}}}}
+
+% Скобки для доменных выражений
+
+\newcommand\dset[1]{\Dom{\set{#1}}}
+\newcommand\DSet[1]{\Dom{\Bras{#1}}}
+
+\newcommand\dpars[1]{\Dom{\pars{#1}}}
+\newcommand\DPars[1]{\Dom{\Pars{#1}}}
+
+% Звёздочка Клини для переменных и доменов
+
+\newcommand\kstar[1]{\ensuremath{{#1}^*}}
+\newcommand\kplus[1]{\ensuremath{{#1}^+}}
+\newcommand\KStar[1]{\kstar{\Dom{#1}}}
+\newcommand\KPlus[1]{\kplus{\Dom{#1}}}
+
+\dopscheme{DProd}{\times}{\prod}{\DNm}{\identity}{\identity}
+\dopscheme{DSum}{+}{\sum}{\DNm}{\dpars}{\DPars}
+
+% Произведения доменов
+
+\opscheme{prod}{\times}{\prod}
+
+\newcommand\prj[2]{\ensuremath{\pi^{#1}_{\enumx{#2}}}}
+
+% Суммы доменов
+
+\dopscheme{oneof}{\sum}{+}{\identity}{\pars}{\Pars}
+
+\newcommand\inj[2]{\ensuremath{\epsilon^{#1}_{\enumx{#2}}}}
+
