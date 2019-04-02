@@ -15,7 +15,7 @@
 \newcommand\identity[1]{#1}
 \newcommand\esc[1]{#1}
 
-\input{cmd-engine}
+\input{engine}
 
 % СХЕМЫ. Схемами названы генераторы новых команд по некоторым схемам. Очень
 % много схожего между, например, \product и \unite: ассоциативные операторы,
@@ -67,29 +67,15 @@
 %
 % Больше о схемах сказать нечего.
 
-\input{scm-bigops}
-\input{scm-indexes}
-\input{scm-enum}
-\input{scm-keywords}
+\input{schemes/bigops}
+\input{schemes/indexes}
+\input{schemes/enum}
+\input{schemes/keywords}
+\input{schemes/lambda}
 
-\input{cmd-domains}
-
-% Схемы для определения функций. Функциональный (f x y) и классический
-% f(x,y) стили. Декорация подразумевается для изменения скобок
-
-\newcommand\cappargs[1]{\nomapinset{,}{#1}}
-\newcommand\appargs[1]{\nomapinset{\ }{#1}}
-
-\newcommand\capp[2]{\ensuremath{{#1}\pars{\cappargs{#2}}}}
-\newcommand\dcapp[3]{\ensuremath{{#1}{#3{\cappargs{#2}}}}}
-
-\newcommand\app[2]{\pars{{#1}\ \appargs{#2}}}
-\newcommand\dapp[3]{\ensuremath{#3{{#1}\ \appargs{#2}}}}
-
-\newcommand\comp[1]{\nomapinset{\circ}{#1}}
-
-
-% СХЕМЫ. КОНЕЦ
+\input{commands/domains}
+\input{commands/pars}
+\input{commands/lambda}
 
 
 % Последовательности и множества
