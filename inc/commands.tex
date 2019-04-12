@@ -77,58 +77,11 @@
 \input{commands/pars}
 \input{commands/lambda}
 
-% Последовательности и множества
-
-\enumscheme{cenum}{,}
-
-\ifclassic
-  \enumscheme{enum}{,}
-\else
-  \enumscheme{enum}{\ }
-\fi
-
-\newcommand\tuple[1]{\ensuremath{[\enumx{#1}]}}
-\newcommand\Tuple[1]{\ensuremath{\left[\enumx{#1}\right]}}
 
 \NewDocumentCommand\tailinj{mmg}{%
   \IfNoValueTF{#3}
     {\ensuremath{#1\rightarrowtail#2}}
     {\ensuremath{\tailinj{#1}{#2}\ {#3}}}}
-
-% Λ-абстракции
-
-\newcommand\fndom[1]{%
-  \begingroup%
-  \def\inset{\to}%
-  \def\mapitem{\identity}%
-  \ensuremath{\insetmap{#1}}%
-  \endgroup}
-
-\newcommand\lam[1]{\ensuremath{\lambda#1\ldotp}}
-
-% \newcommand{\capp}[1]{%
-%   \begingroup%
-%   \def\inset{,}%
-%   \def\mapitem{\identity}%
-%   \def\maphead{\identity}%
-%   \def\pretail{(}%
-%   \def\posttail{)}%
-%   \ensuremath{\headsplitmap{#1}}%
-%   \endgroup}
-% 
-% \ifclassic
-%   \newcommand\app[1]{\capp{#1}}
-%   \newcommand\papp[1]{\capp{#1}}
-% \else
-%   \newcommand{\app}[1]{%
-%     \begingroup%
-%     \def\inset{\,}%
-%     \def\mapitem{\identity}%
-%     \ensuremath{\insetmap{#1}}%
-%     \endgroup}
-% 
-%   \newcommand{\papp}[1]{\ensuremath{(\app{#1})}}
-% \fi
 
 % S-выражения
 
@@ -363,7 +316,6 @@
 \newcommand\nseq[2]{\iseq{#1}{#2}{\nats}}
 \newcommand\bseq[4]{\iseq{\bind{#1_{#3}}{#2_{#3}}}{#3}{\Nless{#4}}}
 
-\denumscheme{seq}{\ }{\identity}{\brkt}{\Brkt}
 \newcommand\cons[1]{\nomapinset{\cdot}{#1}}
 
 \newcommand\R{\mathbf{R}}

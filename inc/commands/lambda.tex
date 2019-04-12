@@ -1,3 +1,5 @@
+% Λ-абстракции
+
 % Схемы для определения функций. Аппликативный (f x y) и классический
 % f(x,y) стили. Суффиксы генерируемых команд соответствуют общей схеме,
 % приведённой в commands.tex. У обоих схем два параметра: базовое имя для
@@ -77,7 +79,7 @@
 \newcommand\app[2]{\pars{{#1}\ \appargs{#2}}}
 \newcommand\dapp[3]{\ensuremath{#3{{#1}\ \appargs{#2}}}}
 
-\newcommand\comp[1]{\nomapinset{\circ}{#1}}
+% \newcommand\comp[1]{\nomapinset{\circ}{#1}}
 
 \keywordscheme{L}{\grk{l}}
 
@@ -86,3 +88,38 @@
 % \newcommand\lx[1]{\ensuremath{\lambda}-#1}
 
 \enumscheme{aft}{\circ}
+
+\newcommand\lam[1]{\ensuremath{\lambda#1\ldotp}}
+
+% \newcommand{\capp}[1]{%
+%   \begingroup%
+%   \def\inset{,}%
+%   \def\mapitem{\identity}%
+%   \def\maphead{\identity}%
+%   \def\pretail{(}%
+%   \def\posttail{)}%
+%   \ensuremath{\headsplitmap{#1}}%
+%   \endgroup}
+% 
+% \ifclassic
+%   \newcommand\app[1]{\capp{#1}}
+%   \newcommand\papp[1]{\capp{#1}}
+% \else
+%   \newcommand{\app}[1]{%
+%     \begingroup%
+%     \def\inset{\,}%
+%     \def\mapitem{\identity}%
+%     \ensuremath{\insetmap{#1}}%
+%     \endgroup}
+% 
+%   \newcommand{\papp}[1]{\ensuremath{(\app{#1})}}
+% \fi
+%
+% \newcommand\fndom[1]{%
+%   \begingroup%
+%   \def\inset{\to}%
+%   \def\mapitem{\identity}%
+%   \ensuremath{\insetmap{#1}}%
+%   \endgroup}
+
+\newcommand\fnspace[1]{\nomapinset{\to}{#1}}
