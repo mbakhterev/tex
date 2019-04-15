@@ -13,6 +13,26 @@
 %
 % В сложных декорированных схемах dsexpscheme пока не видно никакого смысла,
 % потому что в s-выражениях и без того много оформления.
+%
+% Кроме схем нужны соответствующие конструкции для формирования произвольных
+% s-выражений. Суффикс x в наборе этих команд не упомянут.
+
+\def\codespace{\text{\texttt{\ }}}
+
+\newcommand\sexpb[1]{\ensuremath{\nomapinset{\codespace}{#1}}}
+\newcommand\sexpmb[2]{\ensuremath{\simpleinset{\codespace}{#1}{#2}}}
+\newcommand\sexp[1]{\spars{\sexpb{#1}}}
+\newcommand\sexpm[2]{\spars{\sexpmb{#1}{#2}}}
+
+\newcommand\sexpbe[3]{\sexpbf{#1}{#2}{1}{#3}}
+\newcommand\sexpmbe[4]{\sexpmbe{#1}{#2}{#3}{#4}}
+\newcommand\sexpe[3]{\sexpf{#1}{#2}{1}{#3}}
+\newcommand\sexpme[4]{\sexpmf{#1}{#2}{#3}{#4}}
+
+\newcommand\sexpbf[4]{\ensuremath{{#1}_{{#2} = {#3}}^{#4}}}
+\newcommand\sexpmbf[4]{\ensuremath{{#1{#2}}_{{#2} = {#3}}^{#4}}}
+\newcommand\sexpf[4]{\spars{\sexpbf{#1}{#2}{#3}{#4}}}
+\newcommand\sexpmf[4]{\spars{\sexpmbf{#1}{#2}{#3}{#4}}}
 
 \makeatletter
 
@@ -43,8 +63,10 @@
 % \newcommand\satom[1]{\ensuremath{\text{\texttt{#1}}}}
 % \newcommand\sexp[1]{\ensuremath{\text{\texttt{(}}\baresexp{#1}\text{\texttt{)}}}}
 
-\newcommand\sexp[1]{\spars{\baresexp{#1}}}
+% \newcommand\sexp[1]{\spars{\baresexp{#1}}}
+
 \newcommand\atom[1]{\ensuremath{\text{\texttt{#1}}}}
+
 \newcommand\lexp[2]{\sexp{\grk{l} #1 #2}}
 
 \newcommand\fn[1]{\app{#1}}
