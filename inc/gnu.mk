@@ -9,7 +9,8 @@ tex-common := \
 	commands/domains.tex \
 	commands/pars.tex \
 	commands/lambda.tex \
-	commands/enum.tex \
+	commands/sets.tex \
+	commands/sexps.tex \
 	formats/phd.tex \
 	formats/a5.tex 
 

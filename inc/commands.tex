@@ -72,57 +72,16 @@
 \input{schemes/keywords}
 % \input{schemes/lambda}
 
-\input{commands/enum}
+\input{commands/sets}
 \input{commands/domains}
 \input{commands/pars}
 \input{commands/lambda}
-
+\input{commands/sexps}
 
 \NewDocumentCommand\tailinj{mmg}{%
   \IfNoValueTF{#3}
     {\ensuremath{#1\rightarrowtail#2}}
     {\ensuremath{\tailinj{#1}{#2}\ {#3}}}}
-
-% S-выражения
-
-\makeatletter
-
-\newcommand\codeitem[1]{%
-  \ifx\relax#1\relax
-    \text{\texttt{ }}
-  \else\expandafter\ifx\get@first#1\relax\esc
-    {#1}
-  \else\expandafter\ifx\get@first#1\relax\sexp
-    {#1}
-  \else\expandafter\ifx\get@first#1\relax\satom
-    {#1}
-  \else\expandafter\ifx\get@first#1\relax\atom
-    {#1}
-  \else
-    \text{\texttt{#1}}
-  \fi\fi\fi\fi\fi}
-
-\makeatother
-
-\newcommand\baresexp[1]{%
-  \begingroup%
-  \def\inset{\text{\texttt{\ }}}%
-  \def\mapitem{\codeitem}%
-  \ensuremath{\insetmap{#1}}%
-  \endgroup}
-
-% \newcommand\satom[1]{\ensuremath{\text{\texttt{#1}}}}
-% \newcommand\sexp[1]{\ensuremath{\text{\texttt{(}}\baresexp{#1}\text{\texttt{)}}}}
-
-\newcommand\sexp[1]{\spars{\baresexp{#1}}}
-\newcommand\atom[1]{\ensuremath{\text{\texttt{#1}}}}
-\newcommand\lexp[2]{\sexp{\grk{l} #1 #2}}
-
-\newcommand\fn[1]{\app{#1}}
-
-\newcommand\clam[0]{\ensuremath{\text{\texttt{λ}}}}
-\newcommand\fapp[1]{\sexp{#1}}
-\newcommand\fabs[2]{\sexp{\clam{} {#1} #2}}
 
 % CSP
 

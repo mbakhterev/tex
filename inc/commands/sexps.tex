@@ -1,0 +1,54 @@
+% S-выражения. Команды и схемы. Схемы устроены следующим образом:
+% \sexpscheme{keyword}. После чего строится набор команд со стандартными
+% суффиксами i, [m]x, [m]e, [m]f. Эти команды рисуют s-выражение, в котором
+% элементы записаны математически. Например,
+%
+%   \sexpscheme{run}\runx{a b} → \spars{\atom{run}\codespace a\codespace b}
+%
+% где, codespace и spars машинописные пробел и скобки. Кроме этой основной
+% формы, определяется команда с суффиксом cx, в котором все элементы будут
+% декорированы codeitem, и команды с суффиксами [m]bx, [m]be, [m]bf, в
+% котором s-выражения не взяты в скобки spars. Это может быть полезно, как
+% показывает документация Guile.
+%
+% В сложных декорированных схемах dsexpscheme пока не видно никакого смысла,
+% потому что в s-выражениях и без того много оформления.
+
+\makeatletter
+
+\newcommand\codeitem[1]{%
+  \ifx\relax#1\relax
+    \text{\texttt{ }}
+  \else\expandafter\ifx\get@first#1\relax\esc
+    {#1}
+  \else\expandafter\ifx\get@first#1\relax\sexp
+    {#1}
+  \else\expandafter\ifx\get@first#1\relax\satom
+    {#1}
+  \else\expandafter\ifx\get@first#1\relax\atom
+    {#1}
+  \else
+    \text{\texttt{#1}}
+  \fi\fi\fi\fi\fi}
+
+\makeatother
+
+\newcommand\baresexp[1]{%
+  \begingroup%
+  \def\inset{\text{\texttt{\ }}}%
+  \def\mapitem{\codeitem}%
+  \ensuremath{\insetmap{#1}}%
+  \endgroup}
+
+% \newcommand\satom[1]{\ensuremath{\text{\texttt{#1}}}}
+% \newcommand\sexp[1]{\ensuremath{\text{\texttt{(}}\baresexp{#1}\text{\texttt{)}}}}
+
+\newcommand\sexp[1]{\spars{\baresexp{#1}}}
+\newcommand\atom[1]{\ensuremath{\text{\texttt{#1}}}}
+\newcommand\lexp[2]{\sexp{\grk{l} #1 #2}}
+
+\newcommand\fn[1]{\app{#1}}
+
+\newcommand\clam[0]{\ensuremath{\text{\texttt{λ}}}}
+\newcommand\fapp[1]{\sexp{#1}}
+\newcommand\fabs[2]{\sexp{\clam{} {#1} #2}}
