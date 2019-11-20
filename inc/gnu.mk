@@ -12,7 +12,9 @@ tex-common := \
 	commands/sets.tex \
 	commands/sexps.tex \
 	formats/phd.tex \
-	formats/a5.tex 
+	formats/a5.tex \
+	formats/beamer.tex \
+	formats/formats.tex
 
 # schemes/enum.tex \
 # schemes/lambda.tex \
