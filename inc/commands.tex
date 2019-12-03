@@ -147,12 +147,14 @@
 
 \def\extract@code#1#2\relax{#1}
 
-\newcommand\code[1]{\relax%
-  \expandafter\ifx\extract@code#1\relax\identity%
-    {#1}%
-  \else%
-    \mbox{\texttt{#1}}%
-  \fi\relax}
+% \newcommand\code[1]{\relax%
+%   \expandafter\ifx\extract@code#1\relax\identity%
+%     {#1}%
+%   \else%
+%     \mbox{\texttt{#1}}%
+%   \fi\relax}
+
+\newcommand\code[1]{\ensuremath{\codeitem{#1}}}
 
 \makeatother
 
