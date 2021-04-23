@@ -136,23 +136,9 @@
   \ensuremath{\insetmap{#1}}%
   \endgroup}
 
-% \newcommand\seq[1]{\tuple{#1}}
-
-% \newcommand\term[1]{\fn{TERM {\unite{#1}}}}
-
-% \newcommand\term[1]{\fn{TERM #1}}
-% \newcommand\tval[1]{\fn{val #1}}
-
 \makeatletter
 
 \def\extract@code#1#2\relax{#1}
-
-% \newcommand\code[1]{\relax%
-%   \expandafter\ifx\extract@code#1\relax\identity%
-%     {#1}%
-%   \else%
-%     \mbox{\texttt{#1}}%
-%   \fi\relax}
 
 \newcommand\code[1]{\ensuremath{\codeitem{#1}}}
 
@@ -162,19 +148,10 @@
 \newcommand\bind[2]{\ensuremath{[\bbind{#1}{#2}]}}
 \newcommand\bindc[2]{\tuple{\bind{\code{#1}}{\code{#2}}}}
 
-% \newcommand\codespace[0]{\mbox{\texttt{ }}}
-
 \newcommand{\bred}[1]{\inscribe{\mathrel{{\to}_\beta}}{#1}}
 \newcommand{\aeq}[1]{\inscribe{\mathrel{{=}_\alpha}}{#1}}
 
-% \newcommand{\tuple}[1]{\seq{#1}}
-% \newcommand\tlen[1]{\card{\dom{#1}}}
-% \newcommand\tlen[1]{{#1_{\#}}}
 \newcommand\tend[1]{{#1}_{\tlen{#1}-1}}
-
-% \newcommand\tlen[1]{\capp{\mathrm{len} {#1}}}
-
-%  \begingroup\def\inset{\times} \def\doword{} {\words#1}\endgroup}
 
 \newcommand{\rel}[2]{\inscribe{\mathrel{#1}}{#2}}
 \newcommand{\relation}[2]{\rel{#1}{#2}}
@@ -183,7 +160,6 @@
 
 \newcommand{\forevery}[1]{\forall{#1}\ldotp\ }
 \newcommand{\thereis}[1]{\ensuremath{\exists{#1}\ldotp\ }}
-% \newcommand{\lam}[1]{\text{\textgreek{λ}}#1\ldotp}
 
 \newcommand{\coll}[2]{\left\{{{#1} \mid {#2}}\right\}}
 
@@ -213,9 +189,6 @@
 
 \newcommand\allop{\all{{} {}}}
 \newcommand\anyop{\any{{} {}}}
-
-% \newcommand{\join}[1]{\inscribe{\cap}{#1}}
-% \newcommand{\unite}[1]{\inscribe{\cup}{#1}}
 
 \newcommand\join[1]{%
   \begingroup%
@@ -330,15 +303,9 @@
 \newcommand\In[1]{#1}
 \newcommand\Wr[1]{#1}
 
-% \newcommand\px[1]{\grk{p}-#1}
+% \cfnscheme{im}{\mathrm{im}}
 
-
-% \newcommand\im[1]{\capp{\mathrm{im} {#1}}}
-
-\cfnscheme{im}{\mathrm{im}}
-% \fnscheme{im}{\mathrm{im}}
-
-% \newcommand\mr[1]{\ensuremath{\mathbf{R_{#1}}}}
+\fnscheme{im}{\mathrm{im}}
 
 \newcommand\mr[1]{\ensuremath{\mathtt{R}_\mathtt{#1}}}
 
