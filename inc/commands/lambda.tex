@@ -41,33 +41,31 @@
 %     \Pars{\nomapinset{\ }{{#2} {\indexesm{##1}{##2}{##3}{##4}}}}}
 % }
 
+\newcommand\appx[2]{\ensuremath{{#1}\!\Pars{\nomapinset{,}{#2}}}}
+
+\newcommand\appr[3]{\ensuremath{{#1}\!\Pars{\nomapinset{,}{{#2} {\dots} {#3}}}}}
+
+\newcommand\appe[4]{\appf{#1}{#2}{#3}{1}{#4}}
+\newcommand\appf[5]{\ensuremath{{#1}\!\Pars{\indexes{#2}{#3}{#4}{#5}}}}
+
+\newcommand\appmx[3]{\ensuremath{{#1}\!\Pars{\simpleinset{,}{#2}{#3}}}}
+
+\newcommand\appmr[4]{\ensuremath{{#1}\!\Pars{\nomapinset{,}{{#2{#3}}{\dots}{#2{#4}}}}}}
+
+\newcommand\appme[4]{\appmf{#1}{#2}{#3}{1}{#4}}
+\newcommand\appmf[5]{\ensuremath{{#1}\!\Pars{\indexesm{#2}{#3}{#4}{#5}}}}
+
 \newcommand\fnscheme[2]{%
-  \expandafter\newcommand\csname#1i\endcsname[0]{%
-    \ensuremath{#2}}
+  \expandafter\newcommand\csname#1i\endcsname[0]{\ensuremath{#2}}
+  \expandafter\newcommand\csname#1x\endcsname[1]{\appx{#2}{##1}}
+  \expandafter\newcommand\csname#1r\endcsname[2]{\appr{#2}{##1}{##2}}
+  \expandafter\newcommand\csname#1e\endcsname[3]{\appe{#2}{##1}{##2}{##3}}
+  \expandafter\newcommand\csname#1f\endcsname[4]{\appf{#2}{##1}{##2}{##3}{##4}}
 
-  \expandafter\newcommand\csname#1x\endcsname[1]{%
-    \ensuremath{{#2}\!\Pars{\nomapinset{,}{##1}}}}
-
-  \expandafter\newcommand\csname#1r\endcsname[2]{%
-    \ensuremath{{#2}\!\Pars{\nomapinset{,}{{##1} {\dots} {##2}}}}}
-
-  \expandafter\newcommand\csname#1e\endcsname[3]{%
-    \csname#1f\endcsname{##1}{##2}{1}{##3}}
-
-  \expandafter\newcommand\csname#1f\endcsname[4]{%
-    \ensuremath{{#2}\!\Pars{\indexes{##1}{##2}{##3}{##4}}}}
-
-  \expandafter\newcommand\csname#1mx\endcsname[2]{%
-    \ensuremath{{#2}\!\Pars{\simpleinset{,}{##1}{##2}}}}
-
-  \expandafter\newcommand\csname#1mr\endcsname[3]{%
-    \ensuremath{{#2}\!\Pars{\nomapinset{,}{{##1{##2}} {\dots} {##1{##3}}}}}}
-
-  \expandafter\newcommand\csname#1me\endcsname[3]{%
-    \csname#1mf\endcsname{##1}{##2}{1}{##3}}
-
-  \expandafter\newcommand\csname#1mf\endcsname[4]{%
-    \ensuremath{{#2}\!\Pars{\indexesm{##1}{##2}{##3}{##4}}}}
+  \expandafter\newcommand\csname#1mx\endcsname[2]{\appmx{#2}{##1}{##2}}
+  \expandafter\newcommand\csname#1mr\endcsname[3]{\appmr{#2}{##1}{##2}{##3}}
+  \expandafter\newcommand\csname#1me\endcsname[3]{\appme{#2}{##1}{##2}{##3}}
+  \expandafter\newcommand\csname#1mf\endcsname[4]{\appmf{#2}{##1}{##2}{##3}{##4}}
 }
 
 \newcommand\cappargs[1]{\nomapinset{,}{#1}}
