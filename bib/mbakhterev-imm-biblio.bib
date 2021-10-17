@@ -379,3 +379,54 @@ isbn="978-3-540-47926-0"
   year = 2020,
   howpublished = "\url{http://dev.stephendiehl.com/hask/tutorial_print.pdf}"
 }
+
+@article{peyton-jones-11,
+  abstract     = {Advanced type system features, such as GADTs, type classes and type families, have proven to be invaluable language extensions for ensuring data invariants and program correctness. Unfortunately, they pose a tough problem for type inference when they are used as local type assumptions. Local type assumptions often result in the lack of principal types and cast the generalisation of local let-bindings prohibitively difficult to implement and specify. User-declared axioms only make this situation worse. In this paper, we explain the problems and - perhaps controversially - argue for abandoning local let-binding generalisation. We give empirical results that local let generalisation is only sporadically used by Haskell programmers. Moving on, we present a novel constraint-based type inference approach for local type assumptions. Our system, called OUTSIDEIN(X), is parameterised over the particular underlying constraint domain X, in the same way as HM(X). This stratification allows us to use a common metatheory and inference algorithm. OUTSIDEIN(X) extends the constraints of X by introducing implication constraints on top. We describe the strategy for solving these implication constraints, which, in turn, relies on a constraint solver for X. We characterise the properties of the constraint solver for X so that the resulting algorithm only accepts programs with principal types, even when the type system specification accepts programs that do not enjoy principal types. Going beyond the general framework, we give a particular constraint solver for X = type classes + GADTs + type families, a non-trivial challenge in its own right. This constraint solver has been implemented and distributed as part of GHC 7.},
+  author       = {Vytiniotis, Dimitrios and Peyton Jones, Simon and Schrijvers, Tom and Sulzmann, Martin},
+  issn         = {0956-7968},
+  journal      = {Journal of Functional Programming},
+  keywords     = {type system, type inference, local assumtions, type classes, GADTs, type families, Haskell,
+                  constraint handling rules, congruence closure},
+  language     = {eng},
+  number       = {4-5},
+  pages        = {333--412},
+  title        = {OutsideIn(X) : modular type inference with local assumptions},
+  url          = {http://dx.doi.org/10.1017/S0956796811000098},
+  volume       = {21},
+  year         = {2011}
+}
+
+@INPROCEEDINGS{moggi-89,
+  author={Moggi, Eugenio},
+  booktitle={[1989] Proceedings. Fourth Annual Symposium on Logic in Computer Science}, 
+  title={Computational lambda-calculus and monads}, 
+  year={1989},
+  volume={},
+  number={},
+  pages={14-23},
+  doi={10.1109/LICS.1989.39155}
+}
+
+@article{moggi-91,
+  title = {Notions of computation and monads},
+  journal = {Information and Computation},
+  volume = {93},
+  number = {1},
+  pages = {55-92},
+  year = {1991},
+  note = {Selections from 1989 IEEE Symposium on Logic in Computer Science},
+  issn = {0890-5401},
+  doi = {https://doi.org/10.1016/0890-5401(91)90052-4},
+  url = {https://www.sciencedirect.com/science/article/pii/0890540191900524},
+  author = {Moggi, Eugenio},
+  abstract = {The λ-calculus is considered a useful mathematical tool in the study of programming languages, since programs can be identified with λ-terms. However, if one goes further and uses βη-conversion to prove equivalence of programs, then a gross simplification is introduced (programs are identified with total functions from values to values) that may jeopardise the applicability of theoretical results. In this paper we introduce calculi, based on a categorical semantics for computations, that provide a correct basis for proving equivalence of programs for a wide range of notions of computation.}
+}
+
+@book{okasaki-98,
+  author = {Okasaki, Chris},
+  title = {Purely Functional Data Structures},
+  year = {1998},
+  isbn = {0521631246},
+  publisher = {Cambridge University Press},
+  address = {USA}
+}
