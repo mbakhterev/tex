@@ -375,13 +375,13 @@ isbn="978-3-540-47926-0"
 
 @booklet{diehl-20,
   author = {Diehl, Stephen},
-  title = {What I Wish I Knew When Learning Haskell (v2.5)},
+  title = {What I Wish I Knew When Learning {Haskell} (v2.5)},
   year = 2020,
-  howpublished = "\url{http://dev.stephendiehl.com/hask/tutorial_print.pdf}"
+  howpublished = "\url{http://dev.stephendiehl.com/hask/tutorial_print.pdf}",
+  pages = 482
 }
 
 @article{peyton-jones-11,
-  abstract     = {Advanced type system features, such as GADTs, type classes and type families, have proven to be invaluable language extensions for ensuring data invariants and program correctness. Unfortunately, they pose a tough problem for type inference when they are used as local type assumptions. Local type assumptions often result in the lack of principal types and cast the generalisation of local let-bindings prohibitively difficult to implement and specify. User-declared axioms only make this situation worse. In this paper, we explain the problems and - perhaps controversially - argue for abandoning local let-binding generalisation. We give empirical results that local let generalisation is only sporadically used by Haskell programmers. Moving on, we present a novel constraint-based type inference approach for local type assumptions. Our system, called OUTSIDEIN(X), is parameterised over the particular underlying constraint domain X, in the same way as HM(X). This stratification allows us to use a common metatheory and inference algorithm. OUTSIDEIN(X) extends the constraints of X by introducing implication constraints on top. We describe the strategy for solving these implication constraints, which, in turn, relies on a constraint solver for X. We characterise the properties of the constraint solver for X so that the resulting algorithm only accepts programs with principal types, even when the type system specification accepts programs that do not enjoy principal types. Going beyond the general framework, we give a particular constraint solver for X = type classes + GADTs + type families, a non-trivial challenge in its own right. This constraint solver has been implemented and distributed as part of GHC 7.},
   author       = {Vytiniotis, Dimitrios and Peyton Jones, Simon and Schrijvers, Tom and Sulzmann, Martin},
   issn         = {0956-7968},
   journal      = {Journal of Functional Programming},
@@ -390,10 +390,11 @@ isbn="978-3-540-47926-0"
   language     = {eng},
   number       = {4-5},
   pages        = {333--412},
-  title        = {OutsideIn(X) : modular type inference with local assumptions},
+  title        = {{OutsideIn(X)}: modular type inference with local assumptions},
   url          = {http://dx.doi.org/10.1017/S0956796811000098},
   volume       = {21},
-  year         = {2011}
+  year         = {2011},
+  abstract     = {Advanced type system features, such as GADTs, type classes and type families, have proven to be invaluable language extensions for ensuring data invariants and program correctness. Unfortunately, they pose a tough problem for type inference when they are used as local type assumptions. Local type assumptions often result in the lack of principal types and cast the generalisation of local let-bindings prohibitively difficult to implement and specify. User-declared axioms only make this situation worse. In this paper, we explain the problems and - perhaps controversially - argue for abandoning local let-binding generalisation. We give empirical results that local let generalisation is only sporadically used by Haskell programmers. Moving on, we present a novel constraint-based type inference approach for local type assumptions. Our system, called OUTSIDEIN(X), is parameterised over the particular underlying constraint domain X, in the same way as HM(X). This stratification allows us to use a common metatheory and inference algorithm. OUTSIDEIN(X) extends the constraints of X by introducing implication constraints on top. We describe the strategy for solving these implication constraints, which, in turn, relies on a constraint solver for X. We characterise the properties of the constraint solver for X so that the resulting algorithm only accepts programs with principal types, even when the type system specification accepts programs that do not enjoy principal types. Going beyond the general framework, we give a particular constraint solver for X = type classes + GADTs + type families, a non-trivial challenge in its own right. This constraint solver has been implemented and distributed as part of GHC 7.}
 }
 
 @INPROCEEDINGS{moggi-89,
@@ -430,3 +431,91 @@ isbn="978-3-540-47926-0"
   publisher = {Cambridge University Press},
   address = {USA}
 }
+
+@book{kernighan-05,
+  title     = {The C Programming Language},
+  author    = {Kernighan, Brian W.},
+  isbn      = {9780131193710},
+  lccn      = {77028983},
+  series    = {Prentice-Hall software series},
+  year      = {2005},
+  publisher = {Prentice Hall},
+  edition   = {2nd},
+  pages     = {272}
+}
+
+@book{stroustrup-13,
+  author = {Stroustrup, Bjarne},
+  title = {The C++ Programming Language},
+  year = {2013},
+  isbn = {0321563840},
+  publisher = {Addison-Wesley Professional},
+  edition = {4th},
+  pages={1368},
+  abstract = {C++11 has arrived: thoroughly master it, with the definitive new guide from C++ creator
+    Bjarne Stroustrup, C++ Programming Language, Fourth Edition! The brand-new edition
+    of the world's most trusted and widely read guide to C++, it has been comprehensively
+    updated for the long-awaited C++11 standard. Extensively rewritten to present the
+    C++11 language, standard library, and key design techniques as an integrated whole,
+    Stroustrup thoroughly addresses changes that make C++11 feel like a whole new language,
+    offering definitive guidance for leveraging its improvements in performance, reliability,
+    and clarity. C++ programmers around the world recognize Bjarne Stoustrup as the go-to
+    expert for the absolutely authoritative and exceptionally useful information they
+    need to write outstanding C++ programs. Now, as C++11 compilers arrive and development
+    organizations migrate to the new standard, they know exactly where to turn once more:
+    Stoustrup's C++ Programming Language, Fourth Edition.}
+}
+
+@booklet{scheme-13,
+  title     = {Revisited 7 Report on the Algorithmic Language {Scheme}},
+  editor    = {Shinn, Alex and Cowan, John and ARTHUR A. Gleckler, Arthur A.},
+  author    = {Ganz, Steven and Radul, Alex and Shivers, Olin
+               and Hsu, Aaron W. and Read, Jeffrey T. and Snell-pym, Alaric
+               and Lucier, Bradley and Rush, David and Sussman, Gerald J.
+               and Medernach Emmanuel and Russel, Benjamin L.},
+  howpublished = "\url{https://small.r7rs.org/attachment/r7rs.pdf}",
+  year      = 2013,
+  month     = apr,
+  pages     = 88
+}
+
+@article{berger-19,
+  author = {Berger, Emery D. and Hollenbeck, Celeste and Maj, Petr and Vitek, Olga and Vitek, Jan},
+  title = {On the Impact of Programming Languages on Code Quality: A Reproduction Study},
+  year = {2019},
+  issue_date = {December 2019},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  volume = {41},
+  number = {4},
+  issn = {0164-0925},
+  url = {https://doi.org/10.1145/3340571},
+  doi = {10.1145/3340571},
+  journal = {ACM Trans. Program. Lang. Syst.},
+  month = oct,
+  articleno = {21},
+  numpages = {24},
+  keywords = {Programming Languages on Code Quality},
+  abstract = {In a 2014 article, Ray, Posnett, Devanbu, and Filkov claimed to have uncovered a statistically
+  significant association between 11 programming languages and software defects in 729
+  projects hosted on GitHub. Specifically, their work answered four research questions
+  relating to software defects and programming languages. With data and code provided
+  by the authors, the present article first attempts to conduct an experimental repetition
+  of the original study. The repetition is only partially successful, due to missing
+  code and issues with the classification of languages. The second part of this work
+  focuses on their main claim, the association between bugs and languages, and performs
+  a complete, independent reanalysis of the data and of the statistical modeling steps
+  undertaken by Ray et al. in 2014. This reanalysis uncovers a number of serious flaws
+  that reduce the number of languages with an association with defects down from 11
+  to only 4. Moreover, the practical effect size is exceedingly small. These results
+  thus undermine the conclusions of the original study. Correcting the record is important,
+  as many subsequent works have cited the 2014 article and have asserted, without evidence,
+  a causal link between the choice of programming language for a given task and the
+  number of software defects. Causation is not supported by the data at hand; and, in
+  our opinion, even after fixing the methodological flaws we uncovered, too many unaccounted
+  sources of bias remain to hope for a meaningful comparison of bug rates across languages.}
+}
+
+      
+
+
