@@ -1,33 +1,34 @@
-%\DebugHooksOn
-
 \setcounter{secnumdepth}{5}
 
 \makeatletter
 
-\providecommand\section@enum[0]{\setlist[enumerate,1]{label*=\thesection.\arabic*.}}
-\providecommand\subsection@enum[0]{\setlist[enumerate,1]{label*=\thesubsection.\arabic*.}}
-\providecommand\subsubsection@enum[0]{\setlist[enumerate,1]{label*=\thesubsubsection.\arabic*.}}
+\newcommand\tweak@enum[1]{%
+  \setlist[enumerate]{itemindent=\widthof{\normalsize{#1}.0}}%
+  \setlist[enumerate,1]{label*={#1}.\arabic*.}}
 
-\newlength\p@lm
-\setlength{\p@lm}{\widthof{0.0.0.0.0}}
+% \providecommand\section@enum[0]{\setlist[enumerate,1]{label*=\thesection.\arabic*.}}
+% \providecommand\subsection@enum[0]{\setlist[enumerate,1]{label*=\thesubsection.\arabic*.}}
+% \providecommand\subsubsection@enum[0]{\setlist[enumerate,1]{label*=\thesubsubsection.\arabic*.}}
 
-\providecommand\paragraph@enum[0]{%
-  \setlist[enumerate,1]{label*=\theparagraph.\arabic*.}
-  \setlist[enumerate]{itemindent=\widthof{\theparagraph.0}}}
+% \newlength\p@lm
+% \setlength{\p@lm}{\widthof{0.0.0.0.0}}
 
-\providecommand\subparagraph@enum[0]{\setlist[enumerate,1]{label*=\thesubparagraph.\arabic*.}}
+% \providecommand\paragraph@enum[0]{%
+%   \setlist[enumerate,1]{label*=\theparagraph.\arabic*.}
+%   \setlist[enumerate]{itemindent=\widthof{\theparagraph.0}}}
 
-\newcommand\esection[1]{\section{#1}\section@enum\relax}
-\newcommand\esubsection[1]{\subsection{#1}\subsection@enum\relax}
-\newcommand\esubsubsection[1]{\subsubsection{#1}\subsubsection@enum\relax}
-\newcommand\eparagraph[1]{\paragraph{#1}\paragraph@enum\relax}
-\newcommand\esubparagraph[1]{\subparagraph{#1}\subparagraph@enum\relax}
+% \providecommand\subparagraph@enum[0]{\setlist[enumerate,1]{label*=\thesubparagraph.\arabic*.}}
+
+\newcommand\dparagraph[1]{\paragraph{#1}\tweak@enum{\theparagraph}\relax}
+\newcommand\dsubparagraph[1]{%
+  \subparagraph{#1}\tweak@enum{\thesubsubparagraph}\relax}
+
+\AddToHook{cmd/sectionmark/after}{\tweak@enum{\thesection}\relax}
+\AddToHook{cmd/subsectionmark/after}{\tweak@enum{\thesubsection}\relax}
+\AddToHook{cmd/subsubsectionmark/after}{\tweak@enum{\thesubsubsection}\relax}
 
 \makeatother
 
-% \AddToHook{cmd/sectionmark/after}{\sectionenum{}}
-% \AddToHook{cmd/subsectionmark/after}{\subsectionenum{}}
-% \AddToHook{cmd/subsubsectionmark/after}{\subsubsectionenum{}}
 % \AddToHook{cmd/paragraphmark/after}{\paragraphenum{}}
 % \AddToHook{cmd/subparagraph/after}{\subparagraphenum{}}
 
@@ -35,3 +36,8 @@
 
 \setlist[enumerate,2]{label*=\arabic*.}
 \setlist[enumerate,3]{label*=\arabic*.}
+
+\newlist{pros}{itemize}{1}
+\setlist[pros]{label=${+}$}
+\newlist{cons}{itemize}{1}
+\setlist[cons]{label=${-}$}
