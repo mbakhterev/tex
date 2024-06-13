@@ -19,8 +19,8 @@
 
 % \providecommand\subparagraph@enum[0]{\setlist[enumerate,1]{label*=\thesubparagraph.\arabic*.}}
 
-\newcommand\dparagraph[1]{\paragraph{#1}\tweak@enum{\theparagraph}\relax}
-\newcommand\dsubparagraph[1]{%
+\newcommand\nparagraph[1]{\paragraph{#1}\tweak@enum{\theparagraph}\relax}
+\newcommand\nsubparagraph[1]{%
   \subparagraph{#1}\tweak@enum{\thesubsubparagraph}\relax}
 
 \AddToHook{cmd/sectionmark/after}{\tweak@enum{\thesection}\relax}
