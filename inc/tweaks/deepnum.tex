@@ -21,7 +21,7 @@
 
 \newcommand\nparagraph[1]{\paragraph{#1}\tweak@enum{\theparagraph}\relax}
 \newcommand\nsubparagraph[1]{%
-  \subparagraph{#1}\tweak@enum{\thesubsubparagraph}\relax}
+  \subparagraph{#1}\tweak@enum{\thesubparagraph}\relax}
 
 \AddToHook{cmd/sectionmark/after}{\tweak@enum{\thesection}\relax}
 \AddToHook{cmd/subsectionmark/after}{\tweak@enum{\thesubsection}\relax}
