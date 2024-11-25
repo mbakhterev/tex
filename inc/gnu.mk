@@ -11,10 +11,10 @@ tex-common := \
 	commands/lambda.tex \
 	commands/sets.tex \
 	commands/sexps.tex \
+	formats.tex \
 	formats/phd.tex \
-	formats/a5.tex \
+	formats/a5paper.tex \
 	formats/beamer.tex \
-	formats/formats.tex
 
 # schemes/enum.tex \
 # schemes/lambda.tex \
