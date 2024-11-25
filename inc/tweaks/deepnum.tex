@@ -1,0 +1,33 @@
+\setcounter{secnumdepth}{5}
+
+\newlist{pros}{itemize}{1}
+\setlist[pros]{label=${+}$}
+\newlist{cons}{itemize}{1}
+\setlist[cons]{label=${-}$}
+
+\newlist{deepnum}{enumerate}{3}
+
+\setlist[deepnum,2]{label*=.\arabic*}
+\setlist[deepnum,3]{label*=.\arabic*}
+
+\setlist[enumerate,1]{label*=\arabic*}
+\setlist[enumerate,2]{label*=.\arabic*}
+\setlist[enumerate,3]{label*=.\arabic*}
+
+\makeatletter
+
+\newcommand\tweak@enum[1]{%
+  \setlist[deepnum]{itemindent=\widthof{\normalsize{#1}.0}}%
+  \setlist[deepnum,1]{label*={#1}.\arabic*}}
+
+\newcommand\nparagraph[1]{\paragraph{#1}\tweak@enum{\theparagraph}\relax}
+\newcommand\nsubparagraph[1]{%
+  \subparagraph{#1}\tweak@enum{\thesubparagraph}\relax}
+
+\AddToHook{cmd/sectionmark/after}{\tweak@enum{\thesection}\relax}
+\AddToHook{cmd/subsectionmark/after}{\tweak@enum{\thesubsection}\relax}
+\AddToHook{cmd/subsubsectionmark/after}{\tweak@enum{\thesubsubsection}\relax}
+
+\makeatother
+
+

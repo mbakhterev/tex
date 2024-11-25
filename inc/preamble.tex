@@ -1,3 +1,11 @@
+\usepackage{calc}
+\usepackage{currfile}
+
+\usepackage{amsthm}
+\usepackage{stackengine}
+
+\usepackage{setspace}
+
 \usepackage{iftex}
 
 \ifXeTeX
@@ -20,7 +28,7 @@
 \else
   \usepackage[T2A]{fontenc}
   \usepackage[utf8]{inputenc}
-  \usepackage[greek,english,russian]{babel}
+  \usepackage[english,russian]{babel}
 
   \usepackage{amsmath}
   \usepackage{amsfonts}
@@ -28,8 +36,37 @@
 \fi
 
 \ifphd\usepackage{enumitem}\fi
-\ifafive\usepackage{enumitem}\fi
 
-\usepackage[normalem]{ulem}
-\usepackage{amsthm}
-\usepackage{stackengine}
+\iffive
+  \usepackage{enumitem}
+  \usepackage{fancyhdr}
+
+  \usepackage[a5paper, includeheadfoot,
+              hmargin={2em, 2em}, vmargin={0pt,1em},
+              footskip=0pt, headsep=0pt, headheight=1em]{geometry}
+
+  \pagestyle{fancy}
+  \fancyhf{}
+  \fancyhead[R]{\footnotesize{\thepage}}
+
+  \renewcommand\headrulewidth{0pt}
+
+  \onehalfspacing
+\fi
+
+\ifsix
+  \usepackage{enumitem}
+  \usepackage{fancyhdr}
+
+  \usepackage[a6paper, includeheadfoot,
+              hmargin={1em, 1em}, vmargin={0em, 0em},
+              footskip=1em, headsep=0em, headheight=1em]{geometry}
+
+  \pagestyle{fancy}
+  \fancyhf{}
+  \fancyhead[R]{\footnotesize{\thepage}}
+
+  \renewcommand\headrulewidth{0pt}
+
+  \onehalfspacing
+\fi
