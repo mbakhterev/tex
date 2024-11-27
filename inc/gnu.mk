@@ -14,6 +14,7 @@ tex-common := \
 	commands/sexps.tex \
 	formats.tex \
 	formats/phd.tex \
+	formats/note.tex \
 	formats/a4paper.tex \
 	formats/a5paper.tex \
 	formats/a6paper.tex \
