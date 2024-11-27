@@ -1,11 +1,11 @@
 % \usepackage{iftex}
 % \usepackage{amsmath}
-\usepackage{xparse}
+% \usepackage{xparse}
 
 % Различные простые макросы без возни с низкоуровневым TeX
 
-\newcommand\grk[1]{\foreignlanguage{greek}{#1}}
-\newcommand\eng[1]{\foreignlanguage{english}{#1}}
+\providecommand\grk[1]{\foreignlanguage{greek}{#1}}
+\providecommand\eng[1]{\foreignlanguage{english}{#1}}
 
 \newcommand\range[2]{\enumr{#1}{#2}}
 
@@ -282,6 +282,9 @@
 \newcommand\ride[1]{\codepair{RiDE}{#1}}
 \newcommand\hadoop[1]{\codepair{Hadoop}{#1}}
 
+\providecommand\rfive[0]{\ensuremath{\mathtt{R_5}}}
+\providecommand\rsix[0]{\ensuremath{\mathtt{R_6}}}
+
 \newcommand\uid[1]{\fn{{\text{\texttt{uid}}} {#1}}}
 \newcommand\UID[1]{\fn{{\text{\texttt{UID}}} {#1}}}
 \newcommand\node[1]{\fn{{\text{\texttt{node}}} {#1}}}
@@ -308,4 +311,3 @@
 \fnscheme{im}{\mathrm{im}}
 
 \newcommand\mr[1]{\ensuremath{\mathtt{R}_\mathtt{#1}}}
-
