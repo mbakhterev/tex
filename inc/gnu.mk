@@ -3,6 +3,7 @@ tex-common := \
 	engine.tex \
 	listings.tex \
 	preamble.tex \
+	preambles/tex.tex \
 	schemes/bigops.tex \
 	schemes/indexes.tex \
 	schemes/keywords.tex \
@@ -13,8 +14,11 @@ tex-common := \
 	commands/sexps.tex \
 	formats.tex \
 	formats/phd.tex \
+	formats/a4paper.tex \
 	formats/a5paper.tex \
+	formats/a6paper.tex \
 	formats/beamer.tex \
 
 # schemes/enum.tex \
 # schemes/lambda.tex \
+# preamble.tex \
