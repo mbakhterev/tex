@@ -7,10 +7,28 @@
 \providecommand\grk[1]{\foreignlanguage{greek}{#1}}
 \providecommand\eng[1]{\foreignlanguage{english}{#1}}
 
-\newcommand\range[2]{\enumr{#1}{#2}}
+\providecommand\range[2]{\enumr{#1}{#2}}
 
-\newif\ifclassic
-\classicfalse
+\providecommand\lx[1]{{\grk{l}-#1}}
+\providecommand\px[1]{{\grk{p}-#1}}
+
+% ИМЕНА СОБСТВЕННЫЕ
+
+\newcommand\codepair[2]{\(\frac{\mathrm{#1}}{\mathrm{#2}}\)}
+% \newcommand\codepair[2]{\({\mathrm{#1}}_{\mathrm{#2}}\)}
+% \newcommand\codepair[2]{{#1}/{#2}}
+
+\providecommand\mpi[1]{\codepair{MPI}{#1}}
+\providecommand\ride[1]{\codepair{RiDE}{#1}}
+\providecommand\hadoop[1]{\codepair{Hadoop}{#1}}
+
+\providecommand\mr[1]{\ensuremath{\mathtt{R}_\mathtt{#1}}}
+
+\providecommand\rfive[0]{\mr{5}}
+\providecommand\rsix[0]{\mr{6}}
+
+% \newif\ifclassic
+% \classicfalse
 
 \newcommand\identity[1]{#1}
 \newcommand\esc[1]{#1}
@@ -206,17 +224,11 @@
 
 \newcommand{\lub}[1]{\textstyle\bigsqcup{#1}}
 
-\ifclassic
-  \newcommand{\cpars}[1]{\left(#1\right)}
-  \newcommand{\muset}[1]{\mu\left\{{#1}\right\}}
-\else
-  \newcommand{\cpars}[1]{#1}
-  \newcommand{\muset}[1]{\mu{#1}}
-\fi
+\newcommand{\cpars}[1]{#1}
+\newcommand{\muset}[1]{\mu{#1}}
 
 \newcommand\fix[1]{{\mbox{fix}_{#1}\,}}
 \newcommand\dom[1]{{\mbox{dom}\,{#1}}}
-
 
 \newcommand\Nats{\nats}
 % \newcommand\Nless[2]{{\all{{{#2} \in \Nats} {{#1} \le {#2}}}}}
@@ -274,16 +286,6 @@
 \newcommand\mcode[1]{\mbox{\tcode{#1}}}
 \newcommand\mcsp{\mbox{\texttt{ }}}
 
-\newcommand\codepair[2]{\(\frac{\mathrm{#1}}{\mathrm{#2}}\)}
-% \newcommand\codepair[2]{\({\mathrm{#1}}_{\mathrm{#2}}\)}
-% \newcommand\codepair[2]{{#1}/{#2}}
-
-\newcommand\mpi[1]{\codepair{MPI}{#1}}
-\newcommand\ride[1]{\codepair{RiDE}{#1}}
-\newcommand\hadoop[1]{\codepair{Hadoop}{#1}}
-
-\providecommand\rfive[0]{\ensuremath{\mathtt{R_5}}}
-\providecommand\rsix[0]{\ensuremath{\mathtt{R_6}}}
 
 \newcommand\uid[1]{\fn{{\text{\texttt{uid}}} {#1}}}
 \newcommand\UID[1]{\fn{{\text{\texttt{UID}}} {#1}}}
@@ -310,4 +312,4 @@
 
 \fnscheme{im}{\mathrm{im}}
 
-\newcommand\mr[1]{\ensuremath{\mathtt{R}_\mathtt{#1}}}
+
